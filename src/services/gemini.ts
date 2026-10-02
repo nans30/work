@@ -1,16 +1,24 @@
 import { GoogleGenAI } from '@google/genai';
 import type { DailyLog } from '../lib/supabase';
+import type { UserProfile } from '../components/onboarding/Onboarding';
+import type { MuscleGroup } from '../components/dashboard/MuscleWorkload';
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY || '';
 const hasGeminiKey = Boolean(apiKey && !apiKey.includes('YOUR_API_KEY') && !apiKey.includes('placeholder'));
 
+export interface ProCoachInput {
+  profile: UserProfile;
+  currentLog: DailyLog;
+  selectedMuscles?: MuscleGroup[];
+  previousLogs?: DailyLog[];
+}
+
 /**
- * Menghasilkan saran & rekomendasi pemulihan harian menggunakan Google Gemini API
+ * Menghasilkan analisis mendalam dan saran pemulihan sebagai 'Pro Coach' ditenagai Gemini API
  */
-export async function generateFitnessAdvice(
-  currentLog: DailyLog,
-  previousLogs: DailyLog[] = []
-): Promise<string> {
+export async function generateProCoachInsight(input: ProCoachInput): Promise<string> {
+  const { profile, currentLog, selectedMuscles = [], previousLogs = [] } = input;
+
   if (hasGeminiKey) {
     try {
       const ai = new GoogleGenAI({ apiKey });
@@ -23,22 +31,32 @@ export async function generateFitnessAdvice(
         )
         .join('\n');
 
-      const prompt = `
-Anda adalah seorang "AI Fitness & Recovery Coach" profesional dan bersahabat.
-Analisis data harian pengguna berikut:
-- Berat Badan: ${currentLog.weight} kg
-- Durasi Tidur: ${currentLog.sleep_hours} jam
-- Rencana Latihan Hari Ini: ${currentLog.workout}
-- Catatan Pengguna: ${currentLog.notes || 'Tidak ada'}
+      const targetedMusclesStr =
+        selectedMuscles.length > 0 ? selectedMuscles.join(', ') : 'General Full-Body / Rest';
 
-Riwayat 3 hari sebelumnya:
-${historySummary || 'Belum ada data sebelumnya.'}
+      const prompt = `
+Peran: Anda adalah 'Pro Fitness & Recovery Coach' berpengalaman tingkat elit.
+Nama Klien: ${profile.name}
+Profil Klien:
+- Gender: ${profile.gender}
+- Tingkat Pengalaman: ${profile.fitnessLevel} (Pengalaman sebelumnya: ${profile.hasExperience ? 'Ya' : 'Belum'})
+- Berat Awal: ${profile.initialWeight} kg
+
+Data Aktivitas Hari Ini:
+- Berat Badan Hari Ini: ${currentLog.weight} kg (Perubahan: ${(currentLog.weight - profile.initialWeight).toFixed(1)} kg)
+- Durasi Tidur Tadi Malam: ${currentLog.sleep_hours} jam
+- Jenis Latihan Hari Ini: ${currentLog.workout}
+- Fokus Kelompok Otot (Targeted Muscles): ${targetedMusclesStr}
+- Catatan Klien: ${currentLog.notes || 'Tidak ada'}
+
+Riwayat Log Singkat:
+${historySummary || 'Baru memulai sesi pertama.'}
 
 Instruksi Output:
-Tulis respon dalam 3 sampai 4 kalimat ringkas dan jelas dalam Bahasa Indonesia:
-1. Evaluasi kualitas pemulihan berdasarkan durasi tidurnya (${currentLog.sleep_hours} jam).
-2. Rekomendasi intensitas latihan yang cocok untuk ${currentLog.workout} hari ini.
-3. Satu tips actionable mengenai nutrisi, hidrasi, atau mobilitas.
+Tulis respons bergaya coach profesional, empati, langsung ke poin, dan memotivasi (maksimal 3-4 kalimat dalam Bahasa Indonesia):
+1. Berikan apresiasi atau evaluasi performa hari ini dengan menyebut fokus otot (${targetedMusclesStr}).
+2. Analisis kualitas pemulihan berdasarkan ${currentLog.sleep_hours} jam tidur dan apakah intensitas perlu disesuaikan.
+3. Berikan 1 instruksi praktis untuk recovery (misal: hidrasi, peregangan otot terkait, atau jendela nutrisi protein).
 `;
 
       const response = await ai.models.generateContent({
@@ -50,47 +68,59 @@ Tulis respon dalam 3 sampai 4 kalimat ringkas dan jelas dalam Bahasa Indonesia:
         return response.text.trim();
       }
     } catch (err) {
-      console.warn('Gemini API call failed, menggunakan rekomendasi cerdas bawaan:', err);
+      console.warn('Gemini API request failed, beralih ke fallback coach cerdas:', err);
     }
   }
 
-  // Fallback Rule-Based Smart Coach jika API key belum diset atau offline
-  return getOfflineCoachAdvice(currentLog);
+  // Fallback Rule-Based Smart Coach
+  return getOfflineProCoachAdvice(profile, currentLog, selectedMuscles);
+}
+
+function getOfflineProCoachAdvice(
+  profile: UserProfile,
+  log: DailyLog,
+  muscles: MuscleGroup[]
+): string {
+  const { sleep_hours, workout, weight } = log;
+  const muscleNames = muscles.length > 0 ? muscles.join(' & ') : workout;
+
+  let sleepEvaluation = '';
+  if (sleep_hours >= 7.5) {
+    sleepEvaluation = `Kerja bagus ${profile.name}! Tidur ${sleep_hours} jam memberikan regenerasi anabolik optimal untuk otot ${muscleNames}.`;
+  } else if (sleep_hours >= 6) {
+    sleepEvaluation = `Sesi yang solid untuk ${muscleNames}, namun tidur ${sleep_hours} jam membutuhkan perhatian ekstra pada hidrasi dan pemanasan.`;
+  } else {
+    sleepEvaluation = `Perhatian ${profile.name}, tidur ${sleep_hours} jam dapat memicu kelelahan pada otot ${muscleNames}. Turunkan intensitas 15-20% untuk mencegah cedera.`;
+  }
+
+  const hydrationTarget = (weight * 0.035).toFixed(1);
+  const recoveryTip =
+    muscles.includes('Legs') || muscles.includes('Back')
+      ? `Fokuskan foam rolling 5 menit dan konsumsi air minimal ${hydrationTarget}L untuk mempercepat pembuangan asam laktat.`
+      : `Pastikan asupan protein 25-30g setelah latihan serta hidrasi ${hydrationTarget}L untuk memaksimalkan sintesis protein otot.`;
+
+  return `${sleepEvaluation} Sebagai atlet level ${profile.fitnessLevel}, ${recoveryTip}`;
 }
 
 /**
- * Heuristik pemulihan cerdas untuk pengalaman demo instan tanpa konfigurasi awal
+ * Kompatibilitas fungsi legacy
  */
-function getOfflineCoachAdvice(log: DailyLog): string {
-  const { sleep_hours, workout, weight } = log;
+export async function generateFitnessAdvice(
+  currentLog: DailyLog,
+  previousLogs: DailyLog[] = []
+): Promise<string> {
+  const defaultProfile: UserProfile = {
+    name: 'Pengguna',
+    gender: 'Male',
+    hasExperience: true,
+    fitnessLevel: 'Intermediate',
+    initialWeight: currentLog.weight,
+    dailyCalorieTarget: 2000,
+  };
 
-  let sleepFeedback = '';
-  if (sleep_hours >= 7.5) {
-    sleepFeedback = `Tidur Anda sangat optimal (${sleep_hours} jam), sistem saraf pusat dan otot telah pulih dengan baik.`;
-  } else if (sleep_hours >= 6) {
-    sleepFeedback = `Durasi tidur Anda cukup (${sleep_hours} jam), namun perhatikan sinyal kelelahan selama sesi latihan.`;
-  } else {
-    sleepFeedback = `Tidur Anda kurang dari batas ideal (${sleep_hours} jam). Hindari memaksakan intensitas maksimal hari ini untuk mencegah cedera.`;
-  }
-
-  let workoutAdvice = '';
-  if (workout === 'Angkat Beban') {
-    workoutAdvice =
-      sleep_hours >= 7
-        ? 'Anda dalam kondisi prima untuk progressive overload pada gerakan compound.'
-        : 'Pertimbangkan untuk menurunkan volume set atau fokus pada repetisi terkontrol.';
-  } else if (workout === 'Kardio' || workout === 'HIIT / Calisthenics') {
-    workoutAdvice =
-      sleep_hours >= 7
-        ? 'Bagus untuk memacu denyut jantung di zona 3-4.'
-        : 'Jaga detak jantung di zona aerobik ringan (Zona 2) agar tidak membebani sistem kardiorespirasi.';
-  } else if (workout === 'Yoga & Stretching' || workout === 'Rest Day') {
-    workoutAdvice = 'Pilihan tepat untuk merestorasi mobilitas sendi dan menurunkan tingkat stres otot.';
-  } else {
-    workoutAdvice = 'Lakukan pemanasan dinamis 5-10 menit sebelum memulai sesi.';
-  }
-
-  const hydrationTip = `Targetkan minum air minimal ${(weight * 0.035).toFixed(1)} Liter hari ini untuk menjaga hidrasi dan metabolisme.`;
-
-  return `${sleepFeedback} ${workoutAdvice} ${hydrationTip}`;
+  return generateProCoachInsight({
+    profile: defaultProfile,
+    currentLog,
+    previousLogs,
+  });
 }
