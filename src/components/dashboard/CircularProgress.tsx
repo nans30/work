@@ -23,12 +23,12 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
   const validPercentage = Math.min(100, Math.max(0, percentage));
 
   // SVG dimensions matching the exact arc in the mockup
-  const width = 290;
-  const height = 160;
-  const strokeWidth = 20;
-  const radius = 115;
+  const width = 300;
+  const height = 165;
+  const strokeWidth = 18;
+  const radius = 122;
   const cx = width / 2;
-  const cy = 142;
+  const cy = 148;
 
   // Circumference of semi-circle = PI * R
   const arcLength = Math.PI * radius;
@@ -79,12 +79,12 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           />
         </svg>
 
-        {/* Center Text inside Arc (Exact Mockup Typography) */}
-        <div className="absolute top-[42px] flex flex-col items-center text-center">
-          <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight font-sans">
+        {/* Center Text inside Arc (Positioned comfortably in the hollow center without touching the arc) */}
+        <div className="absolute inset-x-0 bottom-3.5 flex flex-col items-center justify-center text-center pointer-events-none">
+          <span className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight font-sans leading-none mb-1.5">
             {scoreLabel}
           </span>
-          <div className="mt-1.5 inline-flex items-center gap-1 bg-[#10B981] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">
+          <div className="inline-flex items-center gap-1 bg-[#10B981] text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">
             +{validPercentage}%
           </div>
         </div>
