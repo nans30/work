@@ -13,7 +13,6 @@ import {
   Flame,
   Plus,
   Settings,
-  Target,
   X,
   UserCheck,
   Home,
@@ -75,20 +74,94 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const burnedCalories = Math.min(2200, 1650 + logs.length * 180);
   const percentage = Math.round((burnedCalories / profile.dailyCalorieTarget) * 100);
 
+  // Dynamic Header Titles matching mockup (Analytics / My Goals / Recent Activity)
+  const getPageHeading = () => {
+    switch (activeTab) {
+      case 'goals':
+        return {
+          title: 'My Goals & Analytics',
+          subtitle: 'Kalkulator target jarak, repetisi & pacing kecepatan',
+        };
+      case 'history':
+        return {
+          title: 'Riwayat Aktivitas',
+          subtitle: 'Catatan performa latihan & kualitas pemulihan tidur',
+        };
+      case 'overview':
+      default:
+        return {
+          title: `Hi, ${profile.name} 👋`,
+          subtitle: todayDateStr,
+        };
+    }
+  };
+
+  const currentHeading = getPageHeading();
+
   return (
     <div className="space-y-6 pb-28 lg:pb-12 animate-fadeIn font-sans">
-      {/* Top Header matching mockup */}
-      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2 pb-2 border-b border-slate-200/80 dark:border-slate-800">
+      {/* Top Header: Clean Page Title without duplicate segmented tabs */}
+      <header className="flex items-center justify-between gap-4 pt-2 pb-2">
         <div>
-          <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 block mb-0.5">
-            {todayDateStr}
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-            Hi, {profile.name} <span className="text-2xl">👋</span>
+          {activeTab !== 'overview' && (
+            <button
+              onClick={() => setActiveTab('overview')}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-purple-600 dark:text-purple-400 hover:underline mb-1 cursor-pointer"
+            >
+              ← Kembali ke Dashboard
+            </button>
+          )}
+          {activeTab === 'overview' && (
+            <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 block mb-0.5">
+              {currentHeading.subtitle}
+            </span>
+          )}
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+            {currentHeading.title}
           </h1>
+          {activeTab !== 'overview' && (
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              {currentHeading.subtitle}
+            </p>
+          )}
         </div>
 
+        {/* Right Action Icons (Theme Switcher & Profile Settings) */}
         <div className="flex items-center gap-2.5">
+          {/* Desktop Navigation Links */}
+          <div className="hidden lg:flex items-center bg-white dark:bg-[#131B2E] p-1 rounded-full border border-slate-200/80 dark:border-slate-800 shadow-sm mr-2 text-xs font-bold">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`px-3.5 py-1.5 rounded-full transition cursor-pointer ${
+                activeTab === 'overview'
+                  ? 'bg-slate-900 dark:bg-purple-600 text-white shadow-sm'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => setActiveTab('goals')}
+              className={`px-3.5 py-1.5 rounded-full transition cursor-pointer ${
+                activeTab === 'goals'
+                  ? 'bg-slate-900 dark:bg-purple-600 text-white shadow-sm'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              My Goals
+            </button>
+            <button
+              onClick={() => setActiveTab('history')}
+              className={`px-3.5 py-1.5 rounded-full transition cursor-pointer ${
+                activeTab === 'history'
+                  ? 'bg-slate-900 dark:bg-purple-600 text-white shadow-sm'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              Riwayat
+            </button>
+          </div>
+
           {/* Theme Toggle Button (Light/Dark Mode) */}
           {onToggleTheme && (
             <button
@@ -113,46 +186,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <div className="w-6 h-6 rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold text-xs">
               {profile.name.charAt(0).toUpperCase()}
             </div>
-            <span>{profile.fitnessLevel}</span>
-            <Settings className="w-3.5 h-3.5 text-slate-400 ml-1" />
+            <span className="hidden sm:inline">{profile.fitnessLevel}</span>
+            <Settings className="w-3.5 h-3.5 text-slate-400" />
           </button>
         </div>
       </header>
-
-      {/* Tab Switcher (Segmented Control) */}
-      <div className="flex bg-white dark:bg-[#131B2E] p-1.5 rounded-[24px] border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark text-xs font-bold gap-1 max-w-md">
-        <button
-          onClick={() => setActiveTab('overview')}
-          className={`flex-1 py-2.5 rounded-2xl transition cursor-pointer text-center ${
-            activeTab === 'overview'
-              ? 'bg-slate-900 dark:bg-purple-600 text-white shadow-sm'
-              : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-          }`}
-        >
-          Overview
-        </button>
-        <button
-          onClick={() => setActiveTab('goals')}
-          className={`flex-1 py-2.5 rounded-2xl transition flex items-center justify-center gap-1.5 cursor-pointer ${
-            activeTab === 'goals'
-              ? 'bg-slate-900 dark:bg-purple-600 text-white shadow-sm'
-              : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-          }`}
-        >
-          <Target className="w-3.5 h-3.5 text-purple-400" />
-          <span>My Goals & Pace</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('history')}
-          className={`flex-1 py-2.5 rounded-2xl transition cursor-pointer text-center ${
-            activeTab === 'history'
-              ? 'bg-slate-900 dark:bg-purple-600 text-white shadow-sm'
-              : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-          }`}
-        >
-          Riwayat ({logs.length})
-        </button>
-      </div>
 
       {/* Tab Content */}
       {activeTab === 'overview' && (
@@ -269,7 +307,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
           <div className="w-[1px] h-6 bg-slate-200 dark:bg-slate-700 mx-1" />
 
-          {/* Black Action Circle Button (Mobile only) */}
+          {/* Action Circle Button (Mobile only) */}
           <button
             onClick={() => setShowLogModal(true)}
             className="w-12 h-12 rounded-full bg-slate-900 dark:bg-purple-600 hover:bg-black text-white flex items-center justify-center shadow-lg active:scale-95 transition cursor-pointer"

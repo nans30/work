@@ -9,7 +9,7 @@
     />
     <title>AuraFit — Premium Fitness & Sleep Tracker</title>
 
-    <!-- Theme Initialization Script (Prevent Theme Flash) -->
+    <!-- Theme Initialization Script: Default to Light Mode -->
     <script>
       try {
         const savedTheme = localStorage.getItem('aurafit_theme');
@@ -18,7 +18,9 @@
         } else {
           document.documentElement.classList.remove('dark');
         }
-      } catch (e) {}
+      } catch (e) {
+        document.documentElement.classList.remove('dark');
+      }
     </script>
 
     <!-- Google Fonts Poppins -->
@@ -31,7 +33,7 @@
 
     <!-- iOS Standalone Web App Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="AuraFit" />
     <meta name="theme-color" content="#F8F9FC" />
     <link rel="apple-touch-icon" href="/favicon.svg" />

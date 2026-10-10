@@ -18,21 +18,20 @@ export default function App() {
   const [showPwaTip, setShowPwaTip] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Theme state: 'light' | 'dark'
+  // Theme state: Default explicitly to 'light'
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     try {
       const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-      if (savedTheme === 'light' || savedTheme === 'dark') {
-        return savedTheme;
+      if (savedTheme === 'dark') {
+        return 'dark';
       }
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      return 'light'; // Default to Light Mode
     } catch {
       return 'light';
     }
   });
 
   useEffect(() => {
-    // Terapkan class 'dark' pada document root
     const root = document.documentElement;
     if (theme === 'dark') {
       root.classList.add('dark');
@@ -202,7 +201,6 @@ export default function App() {
         {/* Kondisi: Tampilkan Onboarding atau Dashboard */}
         {!profile ? (
           <div className="relative">
-            {/* Top theme toggle during onboarding */}
             <div className="absolute top-2 right-2 z-20">
               <button
                 onClick={toggleTheme}
