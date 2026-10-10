@@ -153,11 +153,12 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-slate-100 flex justify-center font-sans">
-      <div className="w-full max-w-md px-4 pt-2">
+    <div className="min-h-screen bg-[#0b0f19] text-slate-100 font-sans selection:bg-purple-500/30">
+      {/* Expansive Responsive Container (Mobile: max-w-md, Desktop: max-w-7xl) */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-6">
         {/* iOS PWA Add to Home Screen Banner */}
         {showPwaTip && (
-          <div className="mb-4 bg-slate-900/90 border border-purple-500/30 rounded-2xl p-3 flex items-start gap-3 text-xs text-slate-300 backdrop-blur-md">
+          <div className="mb-4 bg-slate-900/90 border border-purple-500/30 rounded-2xl p-3 flex items-start gap-3 text-xs text-slate-300 backdrop-blur-md max-w-xl mx-auto">
             <Smartphone className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
             <div className="flex-1">
               <p className="font-semibold text-white mb-0.5">Pasang di iPhone</p>
@@ -167,7 +168,7 @@ export default function App() {
             </div>
             <button
               onClick={() => setShowPwaTip(false)}
-              className="text-slate-500 hover:text-slate-300 text-xs px-1"
+              className="text-slate-500 hover:text-slate-300 text-xs px-1 cursor-pointer"
             >
               ✕
             </button>
