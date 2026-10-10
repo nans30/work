@@ -36,10 +36,24 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
 
   return (
     <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 sm:p-7 border border-slate-100 dark:border-slate-800 shadow-mockup relative overflow-hidden flex flex-col justify-between transition-colors">
-      {/* Top Header Label from Mockup */}
-      <div className="text-center pt-1 mb-1">
-        <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 block uppercase tracking-wider">
-          {label || 'Fitness Score'}
+      {/* Card Header matching Luxury Mockup */}
+      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3.5 mb-2">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold">
+            <Sparkles className="w-4 h-4" />
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-tight">
+              {label || 'Target Progres Kita'}
+            </h3>
+            <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+              Aktivitas & pembakaran kalori ({validPercentage}% tercapai)
+            </span>
+          </div>
+        </div>
+
+        <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-100 dark:border-emerald-800 font-mono">
+          {currentValue.toLocaleString()} / {targetValue.toLocaleString()} {unit}
         </span>
       </div>
 
