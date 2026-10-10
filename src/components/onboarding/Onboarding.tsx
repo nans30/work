@@ -50,17 +50,14 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center py-6 px-4">
-      <div className="w-full max-w-lg lg:max-w-xl bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col justify-between font-sans relative overflow-hidden">
-        {/* Subtle Ambient Glow */}
-        <div className="absolute top-0 right-0 w-48 h-48 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
-
+      <div className="w-full max-w-lg lg:max-w-xl bg-white border border-slate-100 rounded-[36px] p-6 sm:p-9 shadow-mockup-lg flex flex-col justify-between font-sans relative overflow-hidden">
         {/* Top Navigation & Step Indicator */}
         <div>
           <div className="flex items-center justify-between mb-4">
             {step > 1 ? (
               <button
                 onClick={handlePrev}
-                className="w-10 h-10 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition active:scale-95 cursor-pointer"
+                className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200/80 flex items-center justify-center text-slate-700 hover:bg-slate-100 transition active:scale-95 cursor-pointer"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -69,7 +66,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
             )}
 
             <div className="text-center">
-              <span className="text-xs font-semibold tracking-wider uppercase text-purple-400 bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">
+              <span className="text-xs font-bold tracking-wider uppercase text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-100">
                 Step {step} of {totalSteps}
               </span>
             </div>
@@ -78,9 +75,9 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
           </div>
 
           {/* Progress Bar Line */}
-          <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden mb-6 border border-slate-800/80">
+          <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-6">
             <div
-              className="h-full bg-gradient-to-r from-purple-500 via-indigo-400 to-sky-400 rounded-full transition-all duration-500 ease-out"
+              className="h-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-full transition-all duration-500 ease-out"
               style={{ width: `${(step / totalSteps) * 100}%` }}
             />
           </div>
@@ -89,66 +86,70 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
           {step === 1 && (
             <div className="space-y-5 animate-fadeIn">
               <div className="text-center space-y-1.5">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-medium">
-                  <Sparkles className="w-3.5 h-3.5 text-purple-400" /> Profil Pribadi
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-700 text-xs font-bold">
+                  <Sparkles className="w-3.5 h-3.5 text-purple-600" /> Profil Pribadi
                 </span>
-                <h2 className="text-2xl font-bold tracking-tight text-white">
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">
                   Siapa nama dan gender Anda?
                 </h2>
-                <p className="text-xs text-slate-400 max-w-sm mx-auto">
-                  Data ini membantu AI Pro Coach menyesuaikan anjuran nutrisi dan metabolisme Anda.
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  Data ini membantu AI Pro Coach menyesuaikan anjuran latihan & metabolisme Anda.
                 </p>
               </div>
 
               {/* Input Nama */}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-slate-300">Nama Panggilan</label>
+                <label className="text-xs font-bold text-slate-700">Nama Panggilan</label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Masukkan nama Anda"
-                  className="w-full bg-slate-950/80 border border-slate-700/60 rounded-2xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+                  className="w-full bg-slate-50 border border-slate-200/80 rounded-2xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/30 font-medium"
                 />
               </div>
 
               {/* Gender Cards */}
               <div className="space-y-2.5 pt-1">
-                <label className="text-xs font-medium text-slate-300">Pilih Gender</label>
+                <label className="text-xs font-bold text-slate-700">Pilih Gender</label>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setGender('Male')}
-                    className={`p-4 rounded-3xl border text-left transition-all duration-200 cursor-pointer flex flex-col justify-between h-32 ${
+                    className={`p-4 rounded-[28px] border text-left transition-all duration-200 cursor-pointer flex flex-col justify-between h-32 ${
                       gender === 'Male'
-                        ? 'bg-gradient-to-br from-indigo-900/60 to-purple-900/40 border-purple-400 shadow-pastel-purple scale-[1.02]'
-                        : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-md scale-[1.02]'
+                        : 'bg-slate-50 border-slate-100 text-slate-800 hover:border-slate-200'
                     }`}
                   >
-                    <div className="w-9 h-9 rounded-2xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center font-bold">
+                    <div className={`w-9 h-9 rounded-2xl flex items-center justify-center font-bold ${gender === 'Male' ? 'bg-purple-600 text-white' : 'bg-blue-100 text-blue-600'}`}>
                       <User className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sm text-white">Pria</h4>
-                      <p className="text-[11px] text-slate-400">Target massa otot & power</p>
+                      <h4 className="font-bold text-sm leading-snug">Pria</h4>
+                      <p className={`text-[11px] ${gender === 'Male' ? 'text-slate-300' : 'text-slate-400'}`}>
+                        Target massa otot & power
+                      </p>
                     </div>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setGender('Female')}
-                    className={`p-4 rounded-3xl border text-left transition-all duration-200 cursor-pointer flex flex-col justify-between h-32 ${
+                    className={`p-4 rounded-[28px] border text-left transition-all duration-200 cursor-pointer flex flex-col justify-between h-32 ${
                       gender === 'Female'
-                        ? 'bg-gradient-to-br from-pink-900/60 to-purple-900/40 border-pink-400 shadow-soft-lg scale-[1.02]'
-                        : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-md scale-[1.02]'
+                        : 'bg-slate-50 border-slate-100 text-slate-800 hover:border-slate-200'
                     }`}
                   >
-                    <div className="w-9 h-9 rounded-2xl bg-pink-500/20 text-pink-300 flex items-center justify-center font-bold">
+                    <div className={`w-9 h-9 rounded-2xl flex items-center justify-center font-bold ${gender === 'Female' ? 'bg-purple-600 text-white' : 'bg-pink-100 text-pink-600'}`}>
                       <Sparkles className="w-5 h-5" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sm text-white">Wanita</h4>
-                      <p className="text-[11px] text-slate-400">Target tone, stamina & fleksibilitas</p>
+                      <h4 className="font-bold text-sm leading-snug">Wanita</h4>
+                      <p className={`text-[11px] ${gender === 'Female' ? 'text-slate-300' : 'text-slate-400'}`}>
+                        Tone & fleksibilitas
+                      </p>
                     </div>
                   </button>
                 </div>
@@ -158,17 +159,17 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
                   onClick={() => setGender('Other')}
                   className={`w-full p-3.5 rounded-2xl border text-left transition-all duration-200 cursor-pointer flex items-center justify-between ${
                     gender === 'Other'
-                      ? 'bg-purple-900/40 border-purple-400 shadow-soft'
-                      : 'bg-slate-950/40 border-slate-800 hover:border-slate-700'
+                      ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+                      : 'bg-slate-50 border-slate-100 text-slate-700 hover:border-slate-200'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center">
+                    <div className="w-7 h-7 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
                       <Users className="w-4 h-4" />
                     </div>
-                    <span className="text-xs font-medium text-slate-200">Lainnya / Tidak ingin menyebutkan</span>
+                    <span className="text-xs font-semibold">Lainnya / Tidak ingin menyebutkan</span>
                   </div>
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${gender === 'Other' ? 'border-purple-400 bg-purple-500' : 'border-slate-600'}`}>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${gender === 'Other' ? 'border-purple-400 bg-purple-500' : 'border-slate-300'}`}>
                     {gender === 'Other' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                   </div>
                 </button>
@@ -180,24 +181,24 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
           {step === 2 && (
             <div className="space-y-5 animate-fadeIn">
               <div className="text-center space-y-1.5">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-medium">
-                  <Dumbbell className="w-3.5 h-3.5 text-emerald-400" /> Riwayat Kebugaran
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-bold">
+                  <Dumbbell className="w-3.5 h-3.5 text-emerald-600" /> Riwayat Kebugaran
                 </span>
-                <h2 className="text-2xl font-bold tracking-tight text-white">
-                  Apakah Anda memiliki pengalaman fitness?
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">
+                  Pengalaman fitness Anda?
                 </h2>
-                <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
                   Pilih tingkat intensitas yang paling mewakili rutinitas latihan Anda.
                 </p>
               </div>
 
               {/* Simple Yes/No Toggle */}
-              <div className="grid grid-cols-2 gap-3 bg-slate-950 p-1.5 rounded-2xl border border-slate-800">
+              <div className="grid grid-cols-2 gap-3 bg-slate-100 p-1.5 rounded-2xl">
                 <button
                   type="button"
                   onClick={() => setHasExperience(true)}
-                  className={`py-2.5 text-xs font-semibold rounded-xl transition cursor-pointer ${
-                    hasExperience ? 'bg-purple-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                  className={`py-2.5 text-xs font-bold rounded-xl transition cursor-pointer ${
+                    hasExperience ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
                   }`}
                 >
                   Ya, Pernah
@@ -208,8 +209,8 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
                     setHasExperience(false);
                     setFitnessLevel('Beginner');
                   }}
-                  className={`py-2.5 text-xs font-semibold rounded-xl transition cursor-pointer ${
-                    !hasExperience ? 'bg-purple-600 text-white shadow-md' : 'text-slate-400 hover:text-white'
+                  className={`py-2.5 text-xs font-bold rounded-xl transition cursor-pointer ${
+                    !hasExperience ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
                   }`}
                 >
                   Belum Pernah
@@ -218,7 +219,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
 
               {/* Level Experience Cards */}
               <div className="space-y-2.5 pt-1">
-                <label className="text-xs font-medium text-slate-300">Tingkat Pengalaman Latihan</label>
+                <label className="text-xs font-bold text-slate-700">Tingkat Pengalaman Latihan</label>
 
                 <button
                   type="button"
@@ -226,22 +227,24 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
                     setFitnessLevel('Beginner');
                     setHasExperience(false);
                   }}
-                  className={`w-full p-3.5 rounded-3xl border text-left transition duration-200 cursor-pointer flex items-center justify-between ${
+                  className={`w-full p-4 rounded-[24px] border text-left transition duration-200 cursor-pointer flex items-center justify-between ${
                     fitnessLevel === 'Beginner'
-                      ? 'bg-gradient-to-r from-emerald-950/70 to-slate-950 border-emerald-400 shadow-pastel-green scale-[1.01]'
-                      : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                      ? 'bg-slate-900 text-white border-slate-900 shadow-md scale-[1.01]'
+                      : 'bg-slate-50 border-slate-100 text-slate-800 hover:border-slate-200'
                   }`}
                 >
                   <div className="flex items-center gap-3.5">
-                    <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-lg">
                       🌱
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sm text-white">Pemula (Beginner)</h4>
-                      <p className="text-[11px] text-slate-400">Baru memulai atau latihan &lt; 6 bulan</p>
+                      <h4 className="font-bold text-sm">Pemula (Beginner)</h4>
+                      <p className={`text-[11px] ${fitnessLevel === 'Beginner' ? 'text-slate-300' : 'text-slate-400'}`}>
+                        Baru memulai atau latihan &lt; 6 bulan
+                      </p>
                     </div>
                   </div>
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${fitnessLevel === 'Beginner' ? 'border-emerald-400 bg-emerald-500' : 'border-slate-600'}`}>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${fitnessLevel === 'Beginner' ? 'border-purple-400 bg-purple-500' : 'border-slate-300'}`}>
                     {fitnessLevel === 'Beginner' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                   </div>
                 </button>
@@ -252,22 +255,24 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
                     setFitnessLevel('Intermediate');
                     setHasExperience(true);
                   }}
-                  className={`w-full p-3.5 rounded-3xl border text-left transition duration-200 cursor-pointer flex items-center justify-between ${
+                  className={`w-full p-4 rounded-[24px] border text-left transition duration-200 cursor-pointer flex items-center justify-between ${
                     fitnessLevel === 'Intermediate'
-                      ? 'bg-gradient-to-r from-purple-950/70 to-slate-950 border-purple-400 shadow-pastel-purple scale-[1.01]'
-                      : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                      ? 'bg-slate-900 text-white border-slate-900 shadow-md scale-[1.01]'
+                      : 'bg-slate-50 border-slate-100 text-slate-800 hover:border-slate-200'
                   }`}
                 >
                   <div className="flex items-center gap-3.5">
-                    <div className="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-300 flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-lg">
                       ⚡
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sm text-white">Menengah (Intermediate)</h4>
-                      <p className="text-[11px] text-slate-400">Rutin berlatih 1-2 tahun ke belakang</p>
+                      <h4 className="font-bold text-sm">Menengah (Intermediate)</h4>
+                      <p className={`text-[11px] ${fitnessLevel === 'Intermediate' ? 'text-slate-300' : 'text-slate-400'}`}>
+                        Rutin berlatih 1-2 tahun ke belakang
+                      </p>
                     </div>
                   </div>
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${fitnessLevel === 'Intermediate' ? 'border-purple-400 bg-purple-500' : 'border-slate-600'}`}>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${fitnessLevel === 'Intermediate' ? 'border-purple-400 bg-purple-500' : 'border-slate-300'}`}>
                     {fitnessLevel === 'Intermediate' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                   </div>
                 </button>
@@ -278,22 +283,24 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
                     setFitnessLevel('Advanced');
                     setHasExperience(true);
                   }}
-                  className={`w-full p-3.5 rounded-3xl border text-left transition duration-200 cursor-pointer flex items-center justify-between ${
+                  className={`w-full p-4 rounded-[24px] border text-left transition duration-200 cursor-pointer flex items-center justify-between ${
                     fitnessLevel === 'Advanced'
-                      ? 'bg-gradient-to-r from-amber-950/70 to-slate-950 border-amber-400 shadow-soft-lg scale-[1.01]'
-                      : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                      ? 'bg-slate-900 text-white border-slate-900 shadow-md scale-[1.01]'
+                      : 'bg-slate-50 border-slate-100 text-slate-800 hover:border-slate-200'
                   }`}
                 >
                   <div className="flex items-center gap-3.5">
-                    <div className="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">
                       🔥
                     </div>
                     <div>
-                      <h4 className="font-semibold text-sm text-white">Lanjutan (Advanced / Athlete)</h4>
-                      <p className="text-[11px] text-slate-400">Pengalaman &gt; 2 tahun dengan target spesifik</p>
+                      <h4 className="font-bold text-sm">Lanjutan (Advanced / Athlete)</h4>
+                      <p className={`text-[11px] ${fitnessLevel === 'Advanced' ? 'text-slate-300' : 'text-slate-400'}`}>
+                        Pengalaman &gt; 2 tahun dengan target spesifik
+                      </p>
                     </div>
                   </div>
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${fitnessLevel === 'Advanced' ? 'border-amber-400 bg-amber-500' : 'border-slate-600'}`}>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${fitnessLevel === 'Advanced' ? 'border-purple-400 bg-purple-500' : 'border-slate-300'}`}>
                     {fitnessLevel === 'Advanced' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                   </div>
                 </button>
@@ -305,24 +312,24 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
           {step === 3 && (
             <div className="space-y-5 animate-fadeIn">
               <div className="text-center space-y-1.5">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-300 text-xs font-medium">
-                  <Flame className="w-3.5 h-3.5 text-sky-400" /> Berat Badan Awal
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold">
+                  <Flame className="w-3.5 h-3.5 text-blue-600" /> Berat Badan Awal
                 </span>
-                <h2 className="text-2xl font-bold tracking-tight text-white">
-                  Berapa berat badan awal Anda?
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">
+                  Berapa berat badan Anda?
                 </h2>
-                <p className="text-xs text-slate-400 max-w-sm mx-auto">
-                  Geser slider atau gunakan tombol penyesuaian untuk mengatur angka berat badan.
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  Geser slider untuk mengatur angka berat badan awal.
                 </p>
               </div>
 
               {/* Giant Weight Display */}
-              <div className="py-6 bg-gradient-to-b from-slate-950 to-slate-900 border border-slate-800 rounded-3xl text-center space-y-3 shadow-soft-lg relative overflow-hidden">
+              <div className="py-7 bg-slate-50 border border-slate-100 rounded-[32px] text-center space-y-3 shadow-sm relative overflow-hidden">
                 <div className="flex items-baseline justify-center gap-2">
-                  <span className="text-5xl sm:text-6xl font-black tracking-tight text-white font-sans drop-shadow-md">
+                  <span className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 font-sans">
                     {weight.toFixed(1)}
                   </span>
-                  <span className="text-lg font-semibold text-purple-400">kg</span>
+                  <span className="text-xl font-bold text-purple-600">kg</span>
                 </div>
 
                 <div className="px-6 sm:px-8">
@@ -333,9 +340,9 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
                     step="0.5"
                     value={weight}
                     onChange={(e) => setWeight(parseFloat(e.target.value))}
-                    className="w-full h-2.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                    className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-purple-600"
                   />
-                  <div className="flex justify-between text-[11px] text-slate-500 font-medium mt-1.5">
+                  <div className="flex justify-between text-[11px] text-slate-400 font-medium mt-1.5">
                     <span>40 kg</span>
                     <span>Progresif</span>
                     <span>150 kg</span>
@@ -346,28 +353,28 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
                   <button
                     type="button"
                     onClick={() => setWeight((prev) => Math.max(40, prev - 1))}
-                    className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white transition cursor-pointer"
+                    className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-100 transition cursor-pointer shadow-sm"
                   >
                     - 1.0
                   </button>
                   <button
                     type="button"
                     onClick={() => setWeight((prev) => Math.max(40, prev - 0.1))}
-                    className="px-2.5 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white transition cursor-pointer"
+                    className="px-2.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-100 transition cursor-pointer shadow-sm"
                   >
                     - 0.1
                   </button>
                   <button
                     type="button"
                     onClick={() => setWeight((prev) => Math.min(150, prev + 0.1))}
-                    className="px-2.5 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white transition cursor-pointer"
+                    className="px-2.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-100 transition cursor-pointer shadow-sm"
                   >
                     + 0.1
                   </button>
                   <button
                     type="button"
                     onClick={() => setWeight((prev) => Math.min(150, prev + 1))}
-                    className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white transition cursor-pointer"
+                    className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-100 transition cursor-pointer shadow-sm"
                   >
                     + 1.0
                   </button>
@@ -377,12 +384,12 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onComplete, initialName 
           )}
         </div>
 
-        {/* Action Button */}
+        {/* Action Button (Deep Black Pill from Mockup) */}
         <div className="pt-6">
           <button
             type="button"
             onClick={handleNext}
-            className="w-full bg-[#05070c] border border-purple-500/40 hover:border-purple-400 text-white font-semibold py-3.5 rounded-2xl shadow-pastel-purple flex items-center justify-center gap-2 text-sm transition-all duration-200 active:scale-[0.98] cursor-pointer group"
+            className="w-full bg-[#0F172A] hover:bg-black text-white font-bold py-4 rounded-2xl shadow-lg flex items-center justify-center gap-2 text-sm transition-all duration-200 active:scale-[0.98] cursor-pointer group"
           >
             <span>{step === totalSteps ? 'Mulai Perjalanan Kebugaran' : 'Lanjutkan'}</span>
             <ArrowRight className="w-4 h-4 text-purple-400 group-hover:translate-x-1 transition-transform" />

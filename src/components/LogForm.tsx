@@ -40,18 +40,15 @@ export const LogForm: React.FC<LogFormProps> = ({ onSubmit, isLoading }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-5 shadow-2xl space-y-4 relative overflow-hidden"
+      className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup space-y-4"
     >
-      {/* Subtle Glow Background */}
-      <div className="absolute -top-16 -right-16 w-36 h-36 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-
       {/* Form Header */}
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-        <h2 className="text-base font-semibold text-slate-100 flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-indigo-400" /> Catat Aktivitas Hari Ini
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-purple-600" /> Catat Aktivitas Hari Ini
         </h2>
-        <span className="text-[11px] font-medium px-2.5 py-0.5 bg-indigo-500/15 text-indigo-300 rounded-full border border-indigo-500/20">
-          Input Harian
+        <span className="text-[11px] font-bold px-2.5 py-0.5 bg-purple-50 text-purple-700 rounded-full border border-purple-100">
+          Daily Log
         </span>
       </div>
 
@@ -59,8 +56,8 @@ export const LogForm: React.FC<LogFormProps> = ({ onSubmit, isLoading }) => {
       <div className="grid grid-cols-2 gap-3">
         {/* Berat Badan */}
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
-            <Scale className="w-3.5 h-3.5 text-blue-400" /> Berat Badan
+          <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+            <Scale className="w-3.5 h-3.5 text-blue-600" /> Berat Badan
           </label>
           <div className="relative">
             <input
@@ -70,9 +67,9 @@ export const LogForm: React.FC<LogFormProps> = ({ onSubmit, isLoading }) => {
               required
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
-              className="w-full bg-slate-950/70 border border-slate-700/60 rounded-2xl px-3.5 py-2.5 text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-sm pr-9 transition-all"
+              className="w-full bg-slate-50 border border-slate-200/80 rounded-2xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 text-sm pr-9 transition font-medium"
             />
-            <span className="absolute right-3 top-2.5 text-xs text-slate-500 font-medium pointer-events-none">
+            <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-semibold pointer-events-none">
               kg
             </span>
           </div>
@@ -80,8 +77,8 @@ export const LogForm: React.FC<LogFormProps> = ({ onSubmit, isLoading }) => {
 
         {/* Jam Tidur */}
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
-            <Moon className="w-3.5 h-3.5 text-amber-400" /> Durasi Tidur
+          <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+            <Moon className="w-3.5 h-3.5 text-amber-500" /> Jam Tidur
           </label>
           <div className="relative">
             <input
@@ -93,9 +90,9 @@ export const LogForm: React.FC<LogFormProps> = ({ onSubmit, isLoading }) => {
               required
               value={sleepHours}
               onChange={(e) => setSleepHours(e.target.value)}
-              className="w-full bg-slate-950/70 border border-slate-700/60 rounded-2xl px-3.5 py-2.5 text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-sm pr-9 transition-all"
+              className="w-full bg-slate-50 border border-slate-200/80 rounded-2xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 text-sm pr-9 transition font-medium"
             />
-            <span className="absolute right-3 top-2.5 text-xs text-slate-500 font-medium pointer-events-none">
+            <span className="absolute right-3 top-2.5 text-xs text-slate-400 font-semibold pointer-events-none">
               jam
             </span>
           </div>
@@ -104,22 +101,22 @@ export const LogForm: React.FC<LogFormProps> = ({ onSubmit, isLoading }) => {
 
       {/* Tipe Latihan */}
       <div className="space-y-1.5">
-        <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
-          <Dumbbell className="w-3.5 h-3.5 text-emerald-400" /> Tipe Latihan
+        <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+          <Dumbbell className="w-3.5 h-3.5 text-emerald-600" /> Tipe Latihan
         </label>
         <div className="relative">
           <select
             value={workout}
             onChange={(e) => setWorkout(e.target.value as WorkoutType)}
-            className="w-full bg-slate-950/70 border border-slate-700/60 rounded-2xl px-3.5 py-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-sm appearance-none cursor-pointer transition-all"
+            className="w-full bg-slate-50 border border-slate-200/80 rounded-2xl px-3.5 py-2.5 text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 text-sm appearance-none cursor-pointer transition font-medium"
           >
             {workoutOptions.map((opt) => (
-              <option key={opt} value={opt} className="bg-slate-900 text-slate-200">
+              <option key={opt} value={opt} className="bg-white text-slate-900">
                 {opt}
               </option>
             ))}
           </select>
-          <div className="absolute right-3 top-3 pointer-events-none text-slate-500 text-xs">
+          <div className="absolute right-3 top-3 pointer-events-none text-slate-400 text-xs">
             ▼
           </div>
         </div>
@@ -127,23 +124,23 @@ export const LogForm: React.FC<LogFormProps> = ({ onSubmit, isLoading }) => {
 
       {/* Catatan / Notes */}
       <div className="space-y-1.5">
-        <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
+        <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
           <FileText className="w-3.5 h-3.5 text-slate-400" /> Catatan Tambahan (Opsional)
         </label>
         <textarea
           rows={2}
-          placeholder="Contoh: Otot paha agak pegal, merasa berenergi tinggi..."
+          placeholder="Contoh: Otot paha agak pegal, energi latihan bagus..."
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          className="w-full bg-slate-950/70 border border-slate-700/60 rounded-2xl px-3.5 py-2 text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 text-sm resize-none transition-all"
+          className="w-full bg-slate-50 border border-slate-200/80 rounded-2xl px-3.5 py-2 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500 text-sm resize-none transition"
         />
       </div>
 
-      {/* Submit Button */}
+      {/* Submit Button (Deep Black Pill Button from Mockup) */}
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full bg-gradient-to-r from-indigo-500 via-indigo-600 to-violet-600 hover:from-indigo-600 hover:to-violet-700 active:scale-[0.98] text-white font-medium py-3 rounded-2xl shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 text-sm disabled:opacity-50 transition-all cursor-pointer"
+        className="w-full bg-[#0F172A] hover:bg-black active:scale-[0.98] text-white font-semibold py-3.5 rounded-2xl shadow-md flex items-center justify-center gap-2 text-sm disabled:opacity-50 transition cursor-pointer"
       >
         {isLoading ? (
           <div className="flex items-center gap-2">
@@ -152,7 +149,7 @@ export const LogForm: React.FC<LogFormProps> = ({ onSubmit, isLoading }) => {
           </div>
         ) : (
           <>
-            <Send className="w-4 h-4" /> Simpan & Dapatkan Saran AI
+            <Send className="w-4 h-4 text-purple-400" /> Simpan & Dapatkan Saran AI
           </>
         )}
       </button>

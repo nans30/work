@@ -8,7 +8,7 @@ import {
   Tooltip,
   CartesianGrid,
 } from 'recharts';
-import { TrendingUp } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 interface ChartDataPoint {
   day: string;
@@ -37,71 +37,68 @@ export const ActivityChart: React.FC<ActivityChartProps> = ({ data = defaultWeek
   const config = {
     points: {
       label: 'Tren Poin Mingguan',
-      color: '#A855F7',
-      gradientId: 'pointsGrad',
+      color: '#7C3AED',
       unit: 'pts',
-      domain: ['dataMin - 50', 'dataMax + 50'],
+      change: '+24.5%',
     },
     weight: {
       label: 'Tren Berat Badan',
-      color: '#38BDF8',
-      gradientId: 'weightGrad',
+      color: '#2563EB',
       unit: 'kg',
-      domain: ['dataMin - 0.5', 'dataMax + 0.5'],
+      change: '-1.2 kg',
     },
     sleep: {
       label: 'Tren Durasi Tidur',
-      color: '#34D399',
-      gradientId: 'sleepGrad',
+      color: '#10B981',
       unit: 'jam',
-      domain: [4, 10],
+      change: '+1.5 jam',
     },
   };
 
   const activeConfig = config[metric];
 
   return (
-    <div className="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-5 shadow-soft space-y-4">
-      {/* Header & Toggle */}
+    <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup space-y-4">
+      {/* Header & Tabs */}
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-xl bg-purple-500/15 text-purple-400 flex items-center justify-center">
-            <TrendingUp className="w-4 h-4" />
-          </div>
-          <div>
-            <h3 className="text-sm font-semibold text-slate-200">{activeConfig.label}</h3>
-            <span className="text-[10px] text-slate-500">7 Hari Terakhir</span>
+        <div>
+          <span className="text-xs font-medium text-slate-400 block mb-0.5">Grafik Mingguan</span>
+          <div className="flex items-center gap-2">
+            <h3 className="text-base font-bold text-slate-900">{activeConfig.label}</h3>
+            <span className="inline-flex items-center gap-0.5 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+              <ArrowUpRight className="w-3 h-3" /> {activeConfig.change}
+            </span>
           </div>
         </div>
 
-        {/* Tab Filter */}
-        <div className="flex bg-slate-950/80 p-1 rounded-xl border border-slate-800 text-xs">
+        {/* Tab Switcher */}
+        <div className="flex bg-slate-100 p-1 rounded-2xl text-xs font-semibold">
           <button
             onClick={() => setMetric('points')}
-            className={`px-2.5 py-1 rounded-lg font-medium transition ${
+            className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
               metric === 'points'
-                ? 'bg-purple-600 text-white shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-white text-purple-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-900'
             }`}
           >
             Poin
           </button>
           <button
             onClick={() => setMetric('weight')}
-            className={`px-2.5 py-1 rounded-lg font-medium transition ${
+            className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
               metric === 'weight'
-                ? 'bg-sky-600 text-white shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-white text-blue-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-900'
             }`}
           >
             BB (kg)
           </button>
           <button
             onClick={() => setMetric('sleep')}
-            className={`px-2.5 py-1 rounded-lg font-medium transition ${
+            className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
               metric === 'sleep'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-white text-emerald-700 shadow-sm'
+                : 'text-slate-500 hover:text-slate-900'
             }`}
           >
             Tidur
@@ -110,35 +107,34 @@ export const ActivityChart: React.FC<ActivityChartProps> = ({ data = defaultWeek
       </div>
 
       {/* Chart Canvas */}
-      <div className="h-44 w-full -ml-3">
+      <div className="h-48 w-full -ml-3 pt-2">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <defs>
-              <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={activeConfig.color} stopOpacity={0.4} />
+              <linearGradient id="lightMockupGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={activeConfig.color} stopOpacity={0.25} />
                 <stop offset="95%" stopColor={activeConfig.color} stopOpacity={0.0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
             <XAxis
               dataKey="day"
               tickLine={false}
               axisLine={false}
-              tick={{ fill: '#64748b', fontSize: 11 }}
+              tick={{ fill: '#94A3B8', fontSize: 11, fontFamily: 'Poppins' }}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
-              tick={{ fill: '#64748b', fontSize: 10 }}
-              domain={activeConfig.domain as any}
+              tick={{ fill: '#94A3B8', fontSize: 10, fontFamily: 'Poppins' }}
             />
             <Tooltip
               content={({ active, payload, label }) => {
                 if (active && payload && payload.length) {
                   return (
-                    <div className="bg-slate-900 border border-slate-700/80 px-3 py-2 rounded-xl shadow-xl text-xs">
-                      <span className="text-slate-400 font-medium block">{label}</span>
-                      <span className="text-white font-bold text-sm">
+                    <div className="bg-slate-900 text-white px-3.5 py-2 rounded-2xl shadow-xl text-xs font-sans">
+                      <span className="text-slate-400 block text-[10px]">{label}</span>
+                      <span className="font-bold text-sm text-white">
                         {payload[0].value} {activeConfig.unit}
                       </span>
                     </div>
@@ -151,9 +147,9 @@ export const ActivityChart: React.FC<ActivityChartProps> = ({ data = defaultWeek
               type="monotone"
               dataKey={metric}
               stroke={activeConfig.color}
-              strokeWidth={2.5}
+              strokeWidth={3}
               fillOpacity={1}
-              fill="url(#chartGradient)"
+              fill="url(#lightMockupGrad)"
             />
           </AreaChart>
         </ResponsiveContainer>

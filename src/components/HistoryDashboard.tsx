@@ -1,6 +1,6 @@
 import React from 'react';
 import type { DailyLog } from '../lib/supabase';
-import { Activity, Bot, Calendar, Clock, Flame, Sparkles } from 'lucide-react';
+import { Activity, Bot, Clock, Flame, Sparkles } from 'lucide-react';
 
 interface HistoryDashboardProps {
   logs: DailyLog[];
@@ -28,84 +28,78 @@ export const HistoryDashboard: React.FC<HistoryDashboardProps> = ({
 
   return (
     <div className="space-y-4">
-      {/* Kartu Ringkasan Quick Stats */}
+      {/* Quick Stats */}
       {logs.length > 0 && (
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-3.5 backdrop-blur-md">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-1">
-              <Flame className="w-3.5 h-3.5 text-amber-400" /> Rata-rata Berat
+          <div className="bg-white rounded-[28px] p-4 border border-slate-100 shadow-mockup">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium mb-1">
+              <Flame className="w-4 h-4 text-amber-500" /> Rata-rata Berat
             </div>
-            <div className="text-lg font-bold text-slate-100">
-              {averageWeight} <span className="text-xs font-normal text-slate-500">kg</span>
+            <div className="text-xl font-black text-slate-900 font-sans">
+              {averageWeight} <span className="text-xs font-normal text-slate-400">kg</span>
             </div>
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-3.5 backdrop-blur-md">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-1">
-              <Clock className="w-3.5 h-3.5 text-blue-400" /> Rata-rata Tidur
+          <div className="bg-white rounded-[28px] p-4 border border-slate-100 shadow-mockup">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium mb-1">
+              <Clock className="w-4 h-4 text-blue-600" /> Rata-rata Tidur
             </div>
-            <div className="text-lg font-bold text-slate-100">
-              {averageSleep} <span className="text-xs font-normal text-slate-500">jam</span>
+            <div className="text-xl font-black text-slate-900 font-sans">
+              {averageSleep} <span className="text-xs font-normal text-slate-400">jam</span>
             </div>
           </div>
         </div>
       )}
 
-      {/* Kartu Rekomendasi AI Coach */}
+      {/* AI Recovery Coach Card */}
       {(adviceToShow || isGeneratingAdvice) && (
-        <div className="relative overflow-hidden bg-gradient-to-br from-indigo-950/70 via-slate-900/90 to-purple-950/50 border border-indigo-500/30 rounded-3xl p-5 shadow-xl backdrop-blur-xl transition-all">
-          <div className="absolute top-0 right-0 w-28 h-28 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none" />
-
-          <div className="flex items-center justify-between mb-2.5">
-            <div className="flex items-center gap-2 text-indigo-300 text-sm font-semibold">
-              <Bot className="w-4 h-4 text-indigo-400 animate-pulse" />
-              <span>AI Recovery Coach</span>
+        <div className="relative overflow-hidden bg-gradient-to-r from-[#1E3A8A] via-[#312E81] to-[#6B21A8] rounded-[32px] p-6 text-white shadow-mockup-lg">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2 text-white text-sm font-bold">
+              <Bot className="w-5 h-5 text-purple-300 animate-pulse" />
+              <span>AI Coach Insights</span>
             </div>
-            <span className="flex items-center gap-1 text-[11px] text-indigo-400/80 bg-indigo-500/10 px-2 py-0.5 rounded-full border border-indigo-500/20">
-              <Sparkles className="w-3 h-3" /> Gemini 2.5 Flash
+            <span className="text-[11px] text-purple-200 bg-white/15 px-2.5 py-0.5 rounded-full font-medium">
+              <Sparkles className="w-3 h-3 inline mr-1" /> Gemini
             </span>
           </div>
 
           {isGeneratingAdvice ? (
-            <div className="flex items-center gap-2 py-3 text-slate-400 text-xs">
-              <div className="w-3.5 h-3.5 border-2 border-indigo-400/40 border-t-indigo-400 rounded-full animate-spin" />
-              <span>Menyiapkan analisis cerdas untuk hari ini...</span>
+            <div className="flex items-center gap-2 py-2 text-purple-100 text-xs">
+              <div className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              <span>Menyiapkan analisis cerdas...</span>
             </div>
           ) : (
-            <p className="text-xs md:text-sm text-slate-200 leading-relaxed font-normal">
-              {adviceToShow}
-            </p>
+            <p className="text-xs sm:text-sm text-slate-100 leading-relaxed">{adviceToShow}</p>
           )}
         </div>
       )}
 
-      {/* List Riwayat Log */}
-      <div className="bg-slate-900/60 border border-slate-800/80 rounded-3xl p-5 backdrop-blur-md">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
-            <Activity className="w-4 h-4 text-rose-400" /> Riwayat Log Terbaru
+      {/* List Riwayat Log (Recent Transactions style from mockup) */}
+      <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+            <Activity className="w-4 h-4 text-purple-600" /> Riwayat Aktivitas Harian
           </h3>
-          <span className="text-xs text-slate-500">{logs.length} catatan</span>
+          <span className="text-xs font-semibold text-slate-400">{logs.length} catatan</span>
         </div>
 
         {logs.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-xs text-slate-500">Belum ada riwayat aktivitas.</p>
-            <p className="text-[11px] text-slate-600 mt-1">
-              Catat berat badan dan tidur Anda di atas untuk memulai!
-            </p>
+            <p className="text-xs text-slate-400">Belum ada riwayat aktivitas.</p>
           </div>
         ) : (
-          <div className="space-y-2.5">
+          <div className="divide-y divide-slate-100">
             {logs.map((log, index) => (
               <div
                 key={log.id || `${log.date}-${index}`}
-                className="bg-slate-950/50 hover:bg-slate-950/80 transition-colors border border-slate-800/60 rounded-2xl p-3.5 flex items-center justify-between gap-3"
+                className="py-3.5 flex items-center justify-between gap-3 hover:bg-slate-50/50 rounded-2xl px-2 transition"
               >
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mb-1 flex-wrap">
-                    <Calendar className="w-3 h-3 text-slate-500" />
-                    <span>
+                  <div className="flex items-center gap-2 text-xs mb-1">
+                    <span className="font-bold text-slate-900">{log.workout}</span>
+                    <span className="text-slate-300">•</span>
+                    <span className="text-slate-400 font-medium">
                       {log.date
                         ? new Date(log.date).toLocaleDateString('id-ID', {
                             weekday: 'short',
@@ -114,29 +108,17 @@ export const HistoryDashboard: React.FC<HistoryDashboardProps> = ({
                           })
                         : 'Hari ini'}
                     </span>
-                    <span className="text-slate-600">•</span>
-                    <span className="text-indigo-400 font-medium px-2 py-0.5 bg-indigo-500/10 rounded-md">
-                      {log.workout}
-                    </span>
                   </div>
-                  {log.notes && (
-                    <p className="text-xs text-slate-400 truncate italic">
-                      "{log.notes}"
-                    </p>
-                  )}
+                  {log.notes && <p className="text-xs text-slate-400 truncate italic">"{log.notes}"</p>}
                 </div>
 
                 <div className="text-right shrink-0">
-                  <div className="text-sm font-semibold text-slate-100 flex items-center gap-1 justify-end">
-                    <Flame className="w-3.5 h-3.5 text-amber-400" />
-                    {log.weight}{' '}
-                    <span className="text-[10px] text-slate-500 font-normal">kg</span>
+                  <div className="text-sm font-bold text-slate-900 font-sans">
+                    {log.weight} <span className="text-xs font-normal text-slate-400">kg</span>
                   </div>
-                  <div className="text-xs text-slate-400 flex items-center gap-1 justify-end mt-0.5">
-                    <Clock className="w-3 h-3 text-blue-400" />
-                    {log.sleep_hours}{' '}
-                    <span className="text-[10px] text-slate-500 font-normal">jam</span>
-                  </div>
+                  <span className="inline-block text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 mt-0.5">
+                    {log.sleep_hours} jam tidur
+                  </span>
                 </div>
               </div>
             ))}
