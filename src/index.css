@@ -3,8 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: light;
+  }
+
   html {
-    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #F4F5F8;
+    color: #0F172A;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
   html.dark {
@@ -13,14 +19,10 @@
     color: #F8FAFC;
   }
 
-  html:not(.dark) {
-    color-scheme: light;
-    background-color: #F8F9FC;
-    color: #0F172A;
-  }
-
   body {
-    height: 100%;
+    background-color: inherit;
+    color: inherit;
+    min-height: 100%;
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -35,7 +37,7 @@
   }
 }
 
-/* Custom Clean Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -44,9 +46,9 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.4);
+  background: rgba(148, 163, 184, 0.3);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.6);
+  background: rgba(148, 163, 184, 0.5);
 }
