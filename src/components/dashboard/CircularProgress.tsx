@@ -3,19 +3,26 @@ import { ChevronRight, Sparkles } from 'lucide-react';
 
 interface CircularProgressProps {
   percentage: number; // 0 to 100
-  currentValue?: number;
-  targetValue?: number;
-  unit?: string;
   label?: string;
   scoreLabel?: string;
-  onOpenAiCoach?: () => void;
+  goalTitle?: string;
+  completedSessions?: number;
+  totalSessions?: number;
+  targetValue?: number;
+  targetUnit?: string;
+  estimatedWeeks?: number;
+  onNavigateToGoals?: () => void;
 }
 
 export const CircularProgress: React.FC<CircularProgressProps> = ({
   percentage,
   label = 'Progres Target My Goals',
   scoreLabel = 'Excellent!',
-  onOpenAiCoach,
+  goalTitle = 'Jogging / Lari Jarak Jauh',
+  completedSessions = 0,
+  totalSessions = 18,
+  estimatedWeeks = 6,
+  onNavigateToGoals,
 }) => {
   const validPercentage = Math.min(100, Math.max(0, percentage));
 
@@ -41,17 +48,21 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           </div>
           <div>
             <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-tight">
-              {label || 'Progres Target My Goals'}
+              {label}
             </h3>
             <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
-              Pencapaian target latihan harian
+              {goalTitle} • <strong className="text-slate-700 dark:text-slate-300">{completedSessions}/{totalSessions}</strong> Sesi
             </span>
           </div>
         </div>
 
-        <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-100 dark:border-emerald-800">
+        <button
+          onClick={onNavigateToGoals}
+          className="text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-100 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition cursor-pointer"
+          title="Atur Target di My Goals"
+        >
           {validPercentage}% Tercapai
-        </span>
+        </button>
       </div>
 
       {/* Center Semi-Circular Arc Gauge */}
@@ -103,24 +114,24 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
 
       {/* Bottom Action Card matching mockup: "Optimize your recovery with AI-driven recommendations. >" */}
       <div
-        onClick={onOpenAiCoach}
-        className="mt-3 bg-white dark:bg-slate-900/80 border border-slate-100 dark:border-slate-800 rounded-2xl p-3.5 flex items-center justify-between shadow-sm hover:shadow-md transition cursor-pointer group"
+        onClick={onNavigateToGoals}
+        className="mt-3 bg-white dark:bg-slate-900/80 border border-slate-100 dark:border-slate-800 rounded-2xl p-3.5 flex items-center justify-between shadow-sm hover:shadow-md hover:border-purple-200 dark:hover:border-purple-800 transition cursor-pointer group"
       >
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-sm">
-            <Sparkles className="w-4 h-4 text-purple-300" />
+          <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-sm group-hover:bg-purple-600 transition">
+            <Sparkles className="w-4 h-4 text-purple-300 group-hover:text-white transition" />
           </div>
           <div>
             <span className="text-xs font-bold text-slate-900 dark:text-white block leading-snug">
-              Optimize your fitness with AI Coach
+              Target: {goalTitle}
             </span>
             <span className="text-[10px] text-slate-400 dark:text-slate-500">
-              Analisis performa cerdas • Berdasarkan tidur, pemulihan & konsistensi
+              Estimasi roadmap ~{estimatedWeeks} minggu ({completedSessions}/{totalSessions} sesi) • Klik untuk atur target
             </span>
           </div>
         </div>
 
-        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white group-hover:translate-x-0.5 transition" />
+        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 group-hover:translate-x-0.5 transition" />
       </div>
     </div>
   );

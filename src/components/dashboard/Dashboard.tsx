@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { UserProfile } from '../onboarding/Onboarding';
 import type { DailyLog } from '../../lib/supabase';
+import { goalPresets, calculateGoalRoadmap } from '../../lib/goalAnalytics';
 import { CircularProgress } from './CircularProgress';
 import { SummaryCards } from './SummaryCards';
 import { ActivityChart } from './ActivityChart';
@@ -71,8 +72,63 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const activeMinutesToday = logs.length > 0 ? 45 + logs.length * 15 : 45;
   const workoutsCount = logs.length > 0 ? logs.length : 1;
 
-  const burnedCalories = Math.min(2200, 1650 + logs.length * 180);
-  const percentage = Math.round((burnedCalories / profile.dailyCalorieTarget) * 100);
+  // Real Goal Resolution from localStorage & calculateGoalRoadmap
+  const getActiveGoalInfo = () => {
+    try {
+      const saved = localStorage.getItem('aurafit_active_goal');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const preset = goalPresets.find((p) => p.id === parsed.presetId) || goalPresets[0];
+        const baseline = parsed.baseline || preset.defaultBaseline;
+        const target = parsed.target || preset.defaultTarget;
+        const frequency = parsed.frequency || preset.defaultFrequencyPerWeek;
+        const targetPace = parsed.targetPaceSeconds || preset.defaultTargetPaceSeconds || 345;
+        const baselinePace = parsed.baselinePaceSeconds || preset.defaultBaselinePaceSeconds || 420;
+
+        const roadmap = calculateGoalRoadmap(
+          preset.category,
+          baseline,
+          target,
+          frequency,
+          targetPace,
+          baselinePace
+        );
+        return { preset, baseline, target, frequency, roadmap };
+      }
+    } catch {}
+
+    const preset = goalPresets[0];
+    const roadmap = calculateGoalRoadmap(
+      preset.category,
+      preset.defaultBaseline,
+      preset.defaultTarget,
+      preset.defaultFrequencyPerWeek
+    );
+    return {
+      preset,
+      baseline: preset.defaultBaseline,
+      target: preset.defaultTarget,
+      frequency: preset.defaultFrequencyPerWeek,
+      roadmap,
+    };
+  };
+
+  const activeGoalInfo = getActiveGoalInfo();
+  const completedSessions = logs.length;
+  const totalSessions = activeGoalInfo.roadmap.totalSessionsNeeded || 18;
+  const goalProgressPercentage = Math.min(
+    100,
+    Math.round((completedSessions / totalSessions) * 100)
+  );
+
+  const getScoreStatusLabel = (pct: number) => {
+    if (pct >= 100) return 'Goal Reached! 🏆';
+    if (pct >= 75) return 'Excellent!';
+    if (pct >= 50) return 'Great Pace!';
+    if (pct >= 25) return 'On Track!';
+    if (pct > 0) return 'Good Start!';
+    return 'Ready to Start!';
+  };
 
   // Dynamic Header Titles matching mockup (Analytics / My Goals / Recent Activity)
   const getPageHeading = () => {
@@ -198,12 +254,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
           {/* Main Content Area (Left: 8 cols on desktop) */}
           <div className="lg:col-span-7 xl:col-span-8 space-y-6">
             <CircularProgress
-              percentage={percentage}
-              currentValue={burnedCalories}
-              targetValue={profile.dailyCalorieTarget}
-              unit="kkal"
+              percentage={goalProgressPercentage}
               label="Progres Target My Goals"
-              scoreLabel="Excellent!"
+              scoreLabel={getScoreStatusLabel(goalProgressPercentage)}
+              goalTitle={activeGoalInfo.preset.title}
+              completedSessions={completedSessions}
+              totalSessions={totalSessions}
+              estimatedWeeks={activeGoalInfo.roadmap.estimatedWeeks}
+              onNavigateToGoals={() => setActiveTab('goals')}
             />
 
             <SummaryCards

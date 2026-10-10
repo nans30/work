@@ -44,22 +44,90 @@ interface GoalAnalyticsProps {
   logs: DailyLog[];
 }
 
+export const ACTIVE_GOAL_KEY = 'aurafit_active_goal';
+
+export interface SavedGoalData {
+  presetId: string;
+  baseline: number;
+  target: number;
+  frequency: number;
+  targetPaceSeconds?: number;
+  baselinePaceSeconds?: number;
+}
+
 export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) => {
-  const [selectedPreset, setSelectedPreset] = useState<FitnessGoalPreset>(goalPresets[0]);
-  const [baseline, setBaseline] = useState<number>(selectedPreset.defaultBaseline);
-  const [target, setTarget] = useState<number>(selectedPreset.defaultTarget);
-  const [frequency, setFrequency] = useState<number>(selectedPreset.defaultFrequencyPerWeek);
+  const [selectedPreset, setSelectedPreset] = useState<FitnessGoalPreset>(() => {
+    try {
+      const saved = localStorage.getItem(ACTIVE_GOAL_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const match = goalPresets.find((p) => p.id === parsed.presetId);
+        if (match) return match;
+      }
+    } catch {}
+    return goalPresets[0];
+  });
+
+  const [baseline, setBaseline] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem(ACTIVE_GOAL_KEY);
+      if (saved) return JSON.parse(saved).baseline || goalPresets[0].defaultBaseline;
+    } catch {}
+    return goalPresets[0].defaultBaseline;
+  });
+
+  const [target, setTarget] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem(ACTIVE_GOAL_KEY);
+      if (saved) return JSON.parse(saved).target || goalPresets[0].defaultTarget;
+    } catch {}
+    return goalPresets[0].defaultTarget;
+  });
+
+  const [frequency, setFrequency] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem(ACTIVE_GOAL_KEY);
+      if (saved) return JSON.parse(saved).frequency || goalPresets[0].defaultFrequencyPerWeek;
+    } catch {}
+    return goalPresets[0].defaultFrequencyPerWeek;
+  });
 
   // Pace states (detik per km)
-  const [targetPaceSeconds, setTargetPaceSeconds] = useState<number>(
-    selectedPreset.defaultTargetPaceSeconds || 345 // 5:45 min/km
-  );
-  const [baselinePaceSeconds, setBaselinePaceSeconds] = useState<number>(
-    selectedPreset.defaultBaselinePaceSeconds || 420 // 7:00 min/km
-  );
+  const [targetPaceSeconds, setTargetPaceSeconds] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem(ACTIVE_GOAL_KEY);
+      if (saved) return JSON.parse(saved).targetPaceSeconds || 345;
+    } catch {}
+    return 345;
+  });
+
+  const [baselinePaceSeconds, setBaselinePaceSeconds] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem(ACTIVE_GOAL_KEY);
+      if (saved) return JSON.parse(saved).baselinePaceSeconds || 420;
+    } catch {}
+    return 420;
+  });
 
   const [aiAdvice, setAiAdvice] = useState<string>('');
   const [isLoadingAi, setIsLoadingAi] = useState<boolean>(false);
+
+  // Sync state to localStorage whenever values change
+  useEffect(() => {
+    try {
+      const dataToSave: SavedGoalData = {
+        presetId: selectedPreset.id,
+        baseline,
+        target,
+        frequency,
+        targetPaceSeconds,
+        baselinePaceSeconds,
+      };
+      localStorage.setItem(ACTIVE_GOAL_KEY, JSON.stringify(dataToSave));
+    } catch (e) {
+      console.warn('Gagal menyimpan goal ke storage:', e);
+    }
+  }, [selectedPreset.id, baseline, target, frequency, targetPaceSeconds, baselinePaceSeconds]);
 
   // Perhitungan roadmap kalkulator
   const result: GoalCalculationResult = calculateGoalRoadmap(
