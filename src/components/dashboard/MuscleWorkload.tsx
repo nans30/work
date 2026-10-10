@@ -30,18 +30,18 @@ export const MuscleWorkload: React.FC<MuscleWorkloadProps> = ({
   onToggleMuscle,
 }) => {
   return (
-    <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup space-y-4">
+    <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark space-y-4 transition-colors">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
             <Activity className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-900">Muscle Workload</h3>
-            <p className="text-xs text-slate-400">Pilih fokus otot latihan hari ini</p>
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white">Muscle Workload</h3>
+            <p className="text-xs text-slate-400 dark:text-slate-500">Pilih fokus otot latihan hari ini</p>
           </div>
         </div>
-        <span className="text-xs font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-100">
+        <span className="text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-3 py-1 rounded-full border border-purple-100 dark:border-purple-800">
           {selectedMuscles.length} Fokus Otot
         </span>
       </div>
@@ -57,33 +57,33 @@ export const MuscleWorkload: React.FC<MuscleWorkloadProps> = ({
               onClick={() => onToggleMuscle(m.id)}
               className={`p-3.5 rounded-2xl border text-left transition-all duration-200 cursor-pointer relative overflow-hidden flex flex-col justify-between ${
                 isSelected
-                  ? 'bg-slate-900 text-white border-slate-900 shadow-md scale-[1.02]'
-                  : 'bg-slate-50/70 border-slate-100 text-slate-700 hover:border-slate-200'
+                  ? 'bg-slate-900 dark:bg-purple-600 text-white border-slate-900 dark:border-purple-500 shadow-md scale-[1.02]'
+                  : 'bg-slate-50/70 dark:bg-slate-900/60 border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-200 dark:hover:border-slate-700'
               }`}
             >
               <div className="flex items-center justify-between mb-2">
-                <span className={`text-xs font-bold ${isSelected ? 'text-white' : 'text-slate-800'}`}>
+                <span className={`text-xs font-bold ${isSelected ? 'text-white' : 'text-slate-800 dark:text-slate-200'}`}>
                   {m.name}
                 </span>
                 <span
                   className={`w-2.5 h-2.5 rounded-full ${
-                    isSelected ? 'bg-emerald-400 shadow-sm' : 'bg-slate-300'
+                    isSelected ? 'bg-emerald-400 shadow-sm' : 'bg-slate-300 dark:bg-slate-700'
                   }`}
                 />
               </div>
 
               <div className="space-y-1 mt-1">
-                <div className="w-full bg-slate-200/60 h-1.5 rounded-full overflow-hidden">
+                <div className="w-full bg-slate-200/60 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-300 ${
-                      isSelected ? `bg-gradient-to-r ${m.colorGradient}` : 'bg-slate-300'
+                      isSelected ? `bg-gradient-to-r ${m.colorGradient}` : 'bg-slate-300 dark:bg-slate-700'
                     }`}
                     style={{ width: isSelected ? `${m.defaultLoad}%` : '20%' }}
                   />
                 </div>
-                <div className="flex justify-between text-[10px] text-slate-400">
+                <div className="flex justify-between text-[10px] text-slate-400 dark:text-slate-500">
                   <span>{m.category}</span>
-                  <span className={isSelected ? 'text-purple-300 font-medium' : 'text-slate-400'}>
+                  <span className={isSelected ? 'text-purple-200 dark:text-purple-200 font-medium' : 'text-slate-400'}>
                     {isSelected ? `${m.defaultLoad}% load` : 'Resting'}
                   </span>
                 </div>

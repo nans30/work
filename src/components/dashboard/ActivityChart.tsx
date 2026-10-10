@@ -58,27 +58,27 @@ export const ActivityChart: React.FC<ActivityChartProps> = ({ data = defaultWeek
   const activeConfig = config[metric];
 
   return (
-    <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup space-y-4">
+    <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark space-y-4 transition-colors">
       {/* Header & Tabs */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <span className="text-xs font-medium text-slate-400 block mb-0.5">Grafik Mingguan</span>
+          <span className="text-xs font-medium text-slate-400 dark:text-slate-500 block mb-0.5">Grafik Mingguan</span>
           <div className="flex items-center gap-2">
-            <h3 className="text-base font-bold text-slate-900">{activeConfig.label}</h3>
-            <span className="inline-flex items-center gap-0.5 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">{activeConfig.label}</h3>
+            <span className="inline-flex items-center gap-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-100 dark:border-emerald-800">
               <ArrowUpRight className="w-3 h-3" /> {activeConfig.change}
             </span>
           </div>
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex bg-slate-100 p-1 rounded-2xl text-xs font-semibold">
+        <div className="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-2xl text-xs font-semibold">
           <button
             onClick={() => setMetric('points')}
             className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
               metric === 'points'
-                ? 'bg-white text-purple-700 shadow-sm'
-                : 'text-slate-500 hover:text-slate-900'
+                ? 'bg-white dark:bg-purple-600 text-purple-700 dark:text-white shadow-sm'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Poin
@@ -87,8 +87,8 @@ export const ActivityChart: React.FC<ActivityChartProps> = ({ data = defaultWeek
             onClick={() => setMetric('weight')}
             className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
               metric === 'weight'
-                ? 'bg-white text-blue-700 shadow-sm'
-                : 'text-slate-500 hover:text-slate-900'
+                ? 'bg-white dark:bg-blue-600 text-blue-700 dark:text-white shadow-sm'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             BB (kg)
@@ -97,8 +97,8 @@ export const ActivityChart: React.FC<ActivityChartProps> = ({ data = defaultWeek
             onClick={() => setMetric('sleep')}
             className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
               metric === 'sleep'
-                ? 'bg-white text-emerald-700 shadow-sm'
-                : 'text-slate-500 hover:text-slate-900'
+                ? 'bg-white dark:bg-emerald-600 text-emerald-700 dark:text-white shadow-sm'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Tidur
@@ -111,12 +111,12 @@ export const ActivityChart: React.FC<ActivityChartProps> = ({ data = defaultWeek
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <defs>
-              <linearGradient id="lightMockupGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={activeConfig.color} stopOpacity={0.25} />
+              <linearGradient id="chartThemeGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={activeConfig.color} stopOpacity={0.3} />
                 <stop offset="95%" stopColor={activeConfig.color} stopOpacity={0.0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} className="stroke-slate-100 dark:stroke-slate-800" />
             <XAxis
               dataKey="day"
               tickLine={false}
@@ -132,7 +132,7 @@ export const ActivityChart: React.FC<ActivityChartProps> = ({ data = defaultWeek
               content={({ active, payload, label }) => {
                 if (active && payload && payload.length) {
                   return (
-                    <div className="bg-slate-900 text-white px-3.5 py-2 rounded-2xl shadow-xl text-xs font-sans">
+                    <div className="bg-slate-900 dark:bg-slate-950 border border-slate-700 text-white px-3.5 py-2 rounded-2xl shadow-xl text-xs font-sans">
                       <span className="text-slate-400 block text-[10px]">{label}</span>
                       <span className="font-bold text-sm text-white">
                         {payload[0].value} {activeConfig.unit}
@@ -149,7 +149,7 @@ export const ActivityChart: React.FC<ActivityChartProps> = ({ data = defaultWeek
               stroke={activeConfig.color}
               strokeWidth={3}
               fillOpacity={1}
-              fill="url(#lightMockupGrad)"
+              fill="url(#chartThemeGrad)"
             />
           </AreaChart>
         </ResponsiveContainer>

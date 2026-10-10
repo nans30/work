@@ -33,20 +33,20 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
   const strokeDashoffset = arcLength - (validPercentage / 100) * arcLength;
 
   return (
-    <div className="bg-white rounded-[32px] p-6 sm:p-7 border border-slate-100 shadow-mockup relative overflow-hidden flex flex-col justify-between">
+    <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 sm:p-7 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark relative overflow-hidden flex flex-col justify-between transition-colors">
       {/* Top Header */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center text-purple-600">
+          <div className="w-8 h-8 rounded-full bg-purple-50 dark:bg-purple-950/60 flex items-center justify-center text-purple-600 dark:text-purple-400">
             <Target className="w-4 h-4" />
           </div>
           <div>
-            <span className="text-xs text-slate-400 font-medium block">Target Harian</span>
-            <h3 className="text-sm font-bold text-slate-800">{label}</h3>
+            <span className="text-xs text-slate-400 dark:text-slate-500 font-medium block">Target Harian</span>
+            <h3 className="text-sm font-bold text-slate-800 dark:text-white">{label}</h3>
           </div>
         </div>
 
-        <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+        <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-full border border-emerald-100 dark:border-emerald-800">
           <ArrowUpRight className="w-3.5 h-3.5" />
           +{validPercentage}%
         </span>
@@ -62,20 +62,16 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
               <stop offset="50%" stopColor="#4F46E5" />
               <stop offset="100%" stopColor="#9333EA" />
             </linearGradient>
-
-            <linearGradient id="bgTrackGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#F1F5F9" />
-              <stop offset="100%" stopColor="#F8FAFC" />
-            </linearGradient>
           </defs>
 
           {/* Background track arc (180 degrees) */}
           <path
             d={`M ${cx - radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx + radius} ${cy}`}
             fill="none"
-            stroke="#F1F5F9"
+            stroke="currentColor"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
+            className="text-slate-100 dark:text-slate-800/80"
           />
 
           {/* Foreground colored arc */}
@@ -93,10 +89,10 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
 
         {/* Center Text inside Arc */}
         <div className="absolute top-[50px] flex flex-col items-center text-center">
-          <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
+          <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">
             Daily Score
           </span>
-          <span className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight font-sans">
+          <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight font-sans">
             {scoreLabel}
           </span>
           <div className="mt-1 inline-flex items-center gap-1 bg-emerald-500 text-white text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-sm">
@@ -105,23 +101,23 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
         </div>
       </div>
 
-      {/* Bottom Sub-Card (Recommendations pill) */}
-      <div className="mt-2 bg-slate-50/80 border border-slate-100 rounded-2xl p-3.5 flex items-center justify-between">
+      {/* Bottom Sub-Card */}
+      <div className="mt-2 bg-slate-50/80 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800/80 rounded-2xl p-3.5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-sm">
-            <Sparkles className="w-4 h-4 text-purple-300" />
+          <div className="w-8 h-8 rounded-full bg-slate-900 dark:bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+            <Sparkles className="w-4 h-4 text-purple-300 dark:text-white" />
           </div>
           <div>
-            <span className="text-xs font-bold text-slate-900 block leading-snug">
+            <span className="text-xs font-bold text-slate-900 dark:text-white block leading-snug">
               {currentValue.toLocaleString()} / {targetValue.toLocaleString()} {unit}
             </span>
-            <span className="text-[10px] text-slate-500">
+            <span className="text-[10px] text-slate-500 dark:text-slate-400">
               {validPercentage >= 100 ? 'Target tercapai hari ini!' : `Sisa ${(targetValue - currentValue).toLocaleString()} ${unit} lagi`}
             </span>
           </div>
         </div>
 
-        <span className="text-xs font-bold text-purple-600 font-sans">
+        <span className="text-xs font-bold text-purple-600 dark:text-purple-400 font-sans">
           {Math.round(validPercentage)}%
         </span>
       </div>

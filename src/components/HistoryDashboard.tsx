@@ -31,21 +31,21 @@ export const HistoryDashboard: React.FC<HistoryDashboardProps> = ({
       {/* Quick Stats */}
       {logs.length > 0 && (
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-white rounded-[28px] p-4 border border-slate-100 shadow-mockup">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium mb-1">
+          <div className="bg-white dark:bg-[#131B2E] rounded-[28px] p-4 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark transition-colors">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500 font-medium mb-1">
               <Flame className="w-4 h-4 text-amber-500" /> Rata-rata Berat
             </div>
-            <div className="text-xl font-black text-slate-900 font-sans">
-              {averageWeight} <span className="text-xs font-normal text-slate-400">kg</span>
+            <div className="text-xl font-black text-slate-900 dark:text-white font-sans">
+              {averageWeight} <span className="text-xs font-normal text-slate-400 dark:text-slate-500">kg</span>
             </div>
           </div>
 
-          <div className="bg-white rounded-[28px] p-4 border border-slate-100 shadow-mockup">
-            <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium mb-1">
-              <Clock className="w-4 h-4 text-blue-600" /> Rata-rata Tidur
+          <div className="bg-white dark:bg-[#131B2E] rounded-[28px] p-4 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark transition-colors">
+            <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500 font-medium mb-1">
+              <Clock className="w-4 h-4 text-blue-600 dark:text-blue-400" /> Rata-rata Tidur
             </div>
-            <div className="text-xl font-black text-slate-900 font-sans">
-              {averageSleep} <span className="text-xs font-normal text-slate-400">jam</span>
+            <div className="text-xl font-black text-slate-900 dark:text-white font-sans">
+              {averageSleep} <span className="text-xs font-normal text-slate-400 dark:text-slate-500">jam</span>
             </div>
           </div>
         </div>
@@ -75,31 +75,31 @@ export const HistoryDashboard: React.FC<HistoryDashboardProps> = ({
         </div>
       )}
 
-      {/* List Riwayat Log (Recent Transactions style from mockup) */}
-      <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup space-y-4">
+      {/* List Riwayat Log */}
+      <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark space-y-4 transition-colors">
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-            <Activity className="w-4 h-4 text-purple-600" /> Riwayat Aktivitas Harian
+          <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <Activity className="w-4 h-4 text-purple-600 dark:text-purple-400" /> Riwayat Aktivitas Harian
           </h3>
-          <span className="text-xs font-semibold text-slate-400">{logs.length} catatan</span>
+          <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">{logs.length} catatan</span>
         </div>
 
         {logs.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-xs text-slate-400">Belum ada riwayat aktivitas.</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500">Belum ada riwayat aktivitas.</p>
           </div>
         ) : (
-          <div className="divide-y divide-slate-100">
+          <div className="divide-y divide-slate-100 dark:divide-slate-800">
             {logs.map((log, index) => (
               <div
                 key={log.id || `${log.date}-${index}`}
-                className="py-3.5 flex items-center justify-between gap-3 hover:bg-slate-50/50 rounded-2xl px-2 transition"
+                className="py-3.5 flex items-center justify-between gap-3 hover:bg-slate-50/50 dark:hover:bg-slate-900/50 rounded-2xl px-2 transition"
               >
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 text-xs mb-1">
-                    <span className="font-bold text-slate-900">{log.workout}</span>
-                    <span className="text-slate-300">•</span>
-                    <span className="text-slate-400 font-medium">
+                    <span className="font-bold text-slate-900 dark:text-white">{log.workout}</span>
+                    <span className="text-slate-300 dark:text-slate-700">•</span>
+                    <span className="text-slate-400 dark:text-slate-500 font-medium">
                       {log.date
                         ? new Date(log.date).toLocaleDateString('id-ID', {
                             weekday: 'short',
@@ -109,14 +109,14 @@ export const HistoryDashboard: React.FC<HistoryDashboardProps> = ({
                         : 'Hari ini'}
                     </span>
                   </div>
-                  {log.notes && <p className="text-xs text-slate-400 truncate italic">"{log.notes}"</p>}
+                  {log.notes && <p className="text-xs text-slate-400 dark:text-slate-500 truncate italic">"{log.notes}"</p>}
                 </div>
 
                 <div className="text-right shrink-0">
-                  <div className="text-sm font-bold text-slate-900 font-sans">
-                    {log.weight} <span className="text-xs font-normal text-slate-400">kg</span>
+                  <div className="text-sm font-bold text-slate-900 dark:text-white font-sans">
+                    {log.weight} <span className="text-xs font-normal text-slate-400 dark:text-slate-500">kg</span>
                   </div>
-                  <span className="inline-block text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 mt-0.5">
+                  <span className="inline-block text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-100 dark:border-emerald-800 mt-0.5">
                     {log.sleep_hours} jam tidur
                   </span>
                 </div>

@@ -118,36 +118,36 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
   const renderPresetIcon = (iconName: string) => {
     switch (iconName) {
       case 'Footprints':
-        return <Footprints className="w-5 h-5" />;
+        return <Footprints className="w-4 h-4" />;
       case 'Flame':
-        return <Flame className="w-5 h-5" />;
+        return <Flame className="w-4 h-4" />;
       case 'Activity':
-        return <Activity className="w-5 h-5" />;
+        return <Activity className="w-4 h-4" />;
       case 'Dumbbell':
       default:
-        return <Dumbbell className="w-5 h-5" />;
+        return <Dumbbell className="w-4 h-4" />;
     }
   };
 
   return (
     <div className="space-y-6 animate-fadeIn pb-12">
       {/* Title & Introduction Banner */}
-      <div className="bg-white rounded-[32px] p-6 sm:p-7 border border-slate-100 shadow-mockup relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 sm:p-7 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-purple-600 mb-1">
+          <div className="flex items-center gap-2 text-xs font-bold text-purple-600 dark:text-purple-400 mb-1">
             <Sparkles className="w-4 h-4" />
             <span>Goal Feasibility & Pace Analytics</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
             Kalkulator Target, Pace & Sesi Latihan
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-xl leading-relaxed">
             Hitung secara presisi berapa kali sesi latihan, estimasi waktu tempuh, serta pembagian zona kecepatan (*pace*) untuk mencapai target Anda.
           </p>
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
-          <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100 flex items-center gap-1">
+          <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1.5 rounded-full border border-emerald-100 dark:border-emerald-800 flex items-center gap-1">
             <ArrowUpRight className="w-3.5 h-3.5" /> Target {target} {selectedPreset.targetUnit}
           </span>
         </div>
@@ -155,7 +155,7 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
 
       {/* Goal Preset Selector Grid (4 Columns on Desktop) */}
       <div className="space-y-2.5">
-        <label className="text-xs font-bold text-slate-800 block">Pilih Target Kebugaran:</label>
+        <label className="text-xs font-bold text-slate-800 dark:text-slate-200 block">Pilih Target Kebugaran:</label>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
           {goalPresets.map((preset) => {
             const isSelected = selectedPreset.id === preset.id;
@@ -165,14 +165,14 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
                 onClick={() => handleSelectPreset(preset)}
                 className={`p-4 rounded-[28px] border text-left transition-all duration-200 cursor-pointer flex flex-col justify-between h-32 ${
                   isSelected
-                    ? 'bg-slate-900 text-white border-slate-900 shadow-mockup-lg scale-[1.02]'
-                    : 'bg-white border-slate-100 shadow-mockup text-slate-800 hover:border-slate-200'
+                    ? 'bg-slate-900 dark:bg-purple-600 text-white border-slate-900 dark:border-purple-500 shadow-mockup-lg scale-[1.02]'
+                    : 'bg-white dark:bg-[#131B2E] border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark text-slate-800 dark:text-slate-200 hover:border-slate-200 dark:hover:border-slate-700'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div
                     className={`w-9 h-9 rounded-2xl flex items-center justify-center ${
-                      isSelected ? 'bg-purple-600 text-white shadow-sm' : 'bg-purple-50 text-purple-600'
+                      isSelected ? 'bg-purple-600 dark:bg-slate-900 text-white shadow-sm' : 'bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400'
                     }`}
                   >
                     {renderPresetIcon(preset.iconName)}
@@ -182,10 +182,10 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
                   )}
                 </div>
                 <div>
-                  <h4 className={`font-bold text-xs sm:text-sm leading-snug ${isSelected ? 'text-white' : 'text-slate-900'}`}>
+                  <h4 className={`font-bold text-xs sm:text-sm leading-snug ${isSelected ? 'text-white' : 'text-slate-900 dark:text-white'}`}>
                     {preset.title}
                   </h4>
-                  <span className={`text-[11px] block mt-0.5 ${isSelected ? 'text-slate-300' : 'text-slate-400'}`}>
+                  <span className={`text-[11px] block mt-0.5 ${isSelected ? 'text-slate-300' : 'text-slate-400 dark:text-slate-500'}`}>
                     Target: {preset.defaultTarget} {preset.targetUnit}
                   </span>
                 </div>
@@ -201,28 +201,28 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
         <div className="lg:col-span-7 xl:col-span-8 space-y-6">
           {/* Running Pace & Speed Highlight Card */}
           {selectedPreset.category === 'running' && (
-            <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup space-y-4">
+            <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark space-y-4 transition-colors">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-slate-900 text-xs font-bold">
-                  <Gauge className="w-4 h-4 text-blue-600" />
+                <div className="flex items-center gap-2 text-slate-900 dark:text-white text-xs font-bold">
+                  <Gauge className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                   <span>Target Kecepatan (Pace) & Waktu Selesai</span>
                 </div>
-                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+                <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-full border border-emerald-100 dark:border-emerald-800">
                   {result.speedKmh} km/jam
                 </span>
               </div>
 
               <div className="grid grid-cols-2 gap-3.5">
-                <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4">
-                  <span className="text-[11px] text-slate-400 font-medium block mb-1">Target Pace:</span>
-                  <div className="text-2xl font-black text-slate-900 tracking-tight font-sans">
-                    {result.targetPaceFormatted} <span className="text-xs font-normal text-slate-400">/km</span>
+                <div className="bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-4">
+                  <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium block mb-1">Target Pace:</span>
+                  <div className="text-2xl font-black text-slate-900 dark:text-white tracking-tight font-sans">
+                    {result.targetPaceFormatted} <span className="text-xs font-normal text-slate-400 dark:text-slate-500">/km</span>
                   </div>
                 </div>
 
-                <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4">
-                  <span className="text-[11px] text-slate-400 font-medium block mb-1">Total Waktu {target} km:</span>
-                  <div className="text-2xl font-black text-purple-600 tracking-tight font-sans">
+                <div className="bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-4">
+                  <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium block mb-1">Total Waktu {target} km:</span>
+                  <div className="text-2xl font-black text-purple-600 dark:text-purple-400 tracking-tight font-sans">
                     {result.estimatedFinishTimeFormatted}
                   </div>
                 </div>
@@ -231,8 +231,8 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
               {/* Pace Slider */}
               <div className="space-y-2 pt-1">
                 <div className="flex justify-between items-center text-xs">
-                  <span className="text-slate-700 font-semibold">Atur Target Pace Kecepatan:</span>
-                  <span className="text-purple-700 font-bold bg-purple-50 px-2.5 py-1 rounded-xl border border-purple-100">
+                  <span className="text-slate-700 dark:text-slate-300 font-semibold">Atur Target Pace Kecepatan:</span>
+                  <span className="text-purple-700 dark:text-purple-300 font-bold bg-purple-50 dark:bg-purple-950/60 px-2.5 py-1 rounded-xl border border-purple-100 dark:border-purple-800">
                     {formatPace(targetPaceSeconds)} min/km ({result.speedKmh} km/h)
                   </span>
                 </div>
@@ -243,9 +243,9 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
                   step="15"
                   value={targetPaceSeconds}
                   onChange={(e) => setTargetPaceSeconds(Number(e.target.value))}
-                  className="w-full h-2.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-purple-600"
+                  className="w-full h-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-600"
                 />
-                <div className="flex justify-between text-[11px] text-slate-400 font-medium">
+                <div className="flex justify-between text-[11px] text-slate-400 dark:text-slate-500 font-medium">
                   <span>Cepat (4:00 /km)</span>
                   <span>Moderat (6:00 /km)</span>
                   <span>Santai (9:00 /km)</span>
@@ -256,21 +256,21 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
 
           {/* Calisthenics Cadence Card */}
           {selectedPreset.category !== 'running' && (
-            <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup flex items-center justify-between">
+            <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark flex items-center justify-between transition-colors">
               <div className="flex items-center gap-3.5">
-                <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
-                  <Timer className="w-6 h-6 text-purple-600" />
+                <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                  <Timer className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-slate-900">Target Cadence Kecepatan</h4>
-                  <p className="text-xs text-slate-400 font-medium">Ritme per repetisi dalam 60 detik</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">Target Cadence Kecepatan</h4>
+                  <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">Ritme per repetisi dalam 60 detik</p>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-black text-slate-900 font-sans">
-                  {result.cadenceSecondsPerRep} <span className="text-xs font-normal text-slate-400">dtk/rep</span>
+                <div className="text-2xl font-black text-slate-900 dark:text-white font-sans">
+                  {result.cadenceSecondsPerRep} <span className="text-xs font-normal text-slate-400 dark:text-slate-500">dtk/rep</span>
                 </div>
-                <span className="text-xs font-bold text-purple-600">
+                <span className="text-xs font-bold text-purple-600 dark:text-purple-400">
                   ({result.targetRepsPerSecond} reps/detik)
                 </span>
               </div>
@@ -278,12 +278,12 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
           )}
 
           {/* Interactive Parameter Controls */}
-          <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
-                <Target className="w-4 h-4 text-purple-600" /> Parameter Kapasitas & Frekuensi
+          <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark space-y-4 transition-colors">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <Target className="w-4 h-4 text-purple-600 dark:text-purple-400" /> Parameter Kapasitas & Frekuensi
               </h3>
-              <span className="text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-100">
+              <span className="text-[11px] font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-2.5 py-0.5 rounded-full border border-purple-100 dark:border-purple-800">
                 {selectedPreset.targetUnit.toUpperCase()}
               </span>
             </div>
@@ -291,8 +291,8 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
             {/* Baseline Slider */}
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-slate-600 font-medium">Kemampuan Saat Ini (Baseline):</span>
-                <span className="text-slate-900 font-black text-sm bg-slate-100 px-3 py-1 rounded-xl border border-slate-200">
+                <span className="text-slate-600 dark:text-slate-400 font-medium">Kemampuan Saat Ini (Baseline):</span>
+                <span className="text-slate-900 dark:text-white font-black text-sm bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-xl border border-slate-200 dark:border-slate-700">
                   {baseline} {selectedPreset.targetUnit}
                 </span>
               </div>
@@ -303,15 +303,15 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
                 step={selectedPreset.step}
                 value={baseline}
                 onChange={(e) => setBaseline(Number(e.target.value))}
-                className="w-full h-2.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-purple-600"
+                className="w-full h-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-600"
               />
             </div>
 
             {/* Target Slider */}
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-slate-600 font-medium">Target yang Ingin Dicapai:</span>
-                <span className="text-purple-700 font-black text-sm bg-purple-50 px-3 py-1 rounded-xl border border-purple-100">
+                <span className="text-slate-600 dark:text-slate-400 font-medium">Target yang Ingin Dicapai:</span>
+                <span className="text-purple-700 dark:text-purple-300 font-black text-sm bg-purple-50 dark:bg-purple-950/60 px-3 py-1 rounded-xl border border-purple-100 dark:border-purple-800">
                   {target} {selectedPreset.targetUnit}
                 </span>
               </div>
@@ -322,13 +322,13 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
                 step={selectedPreset.step}
                 value={target}
                 onChange={(e) => setTarget(Number(e.target.value))}
-                className="w-full h-2.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                className="w-full h-2.5 bg-slate-100 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-600"
               />
             </div>
 
             {/* Frekuensi Latihan */}
             <div className="space-y-2 pt-1">
-              <span className="text-xs text-slate-600 font-medium block">
+              <span className="text-xs text-slate-600 dark:text-slate-400 font-medium block">
                 Frekuensi Latihan per Minggu:
               </span>
               <div className="grid grid-cols-5 gap-2">
@@ -339,8 +339,8 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
                     onClick={() => setFrequency(days)}
                     className={`py-2.5 rounded-xl text-xs font-bold transition cursor-pointer ${
                       frequency === days
-                        ? 'bg-slate-900 text-white shadow-md'
-                        : 'bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900'
+                        ? 'bg-slate-900 dark:bg-purple-600 text-white shadow-md'
+                        : 'bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                     }`}
                   >
                     {days}x / mgg
@@ -351,15 +351,15 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
           </div>
 
           {/* Recharts Weekly Progression Curve */}
-          <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup space-y-3">
+          <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark space-y-3 transition-colors">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
-                  <Activity className="w-4 h-4 text-purple-600" /> Kurva Proyeksi Mingguan
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <Activity className="w-4 h-4 text-purple-600 dark:text-purple-400" /> Kurva Proyeksi Mingguan
                 </h3>
-                <p className="text-[11px] text-slate-400 font-medium">Peningkatan kapasitas bertahap menuju target</p>
+                <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">Peningkatan kapasitas bertahap menuju target</p>
               </div>
-              <span className="text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-100">
+              <span className="text-[11px] font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 px-2.5 py-1 rounded-full border border-purple-100 dark:border-purple-800">
                 {selectedPreset.targetUnit}
               </span>
             </div>
@@ -371,12 +371,12 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
                   margin={{ top: 15, right: 15, left: -20, bottom: 0 }}
                 >
                   <defs>
-                    <linearGradient id="goalGradLight" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#7C3AED" stopOpacity={0.3} />
+                    <linearGradient id="goalGradTheme" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#7C3AED" stopOpacity={0.4} />
                       <stop offset="95%" stopColor="#7C3AED" stopOpacity={0.0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} className="stroke-slate-100 dark:stroke-slate-800" />
                   <XAxis
                     dataKey="week"
                     tickLine={false}
@@ -393,8 +393,8 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="bg-slate-900 text-white px-3.5 py-2.5 rounded-2xl shadow-xl text-xs font-sans">
-                            <span className="text-slate-400 font-medium block">{label}</span>
+                          <div className="bg-slate-900 dark:bg-slate-950 border border-slate-700 text-white px-3.5 py-2.5 rounded-2xl shadow-xl text-xs font-sans">
+                            <span className="text-slate-400 block text-[10px]">{label}</span>
                             <span className="text-white font-bold text-sm">
                               {payload[0].value} {selectedPreset.targetUnit}
                             </span>
@@ -424,7 +424,7 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
                     stroke="#7C3AED"
                     strokeWidth={3}
                     fillOpacity={1}
-                    fill="url(#goalGradLight)"
+                    fill="url(#goalGradTheme)"
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -432,41 +432,41 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
           </div>
 
           {/* 3-Phase Roadmap (Horizontal Grid on Desktop) */}
-          <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup space-y-4">
+          <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark space-y-4 transition-colors">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Roadmap Tahapan Latihan
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> Roadmap Tahapan Latihan
               </h3>
-              <span className="text-xs text-slate-400 font-semibold">3 Fase Terstruktur</span>
+              <span className="text-xs text-slate-400 dark:text-slate-500 font-semibold">3 Fase Terstruktur</span>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-3.5">
               {result.roadmapPhases.map((phase) => (
                 <div
                   key={phase.phaseNumber}
-                  className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-2.5 flex flex-col justify-between hover:border-slate-200 transition"
+                  className="bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 rounded-2xl p-4 space-y-2.5 flex flex-col justify-between hover:border-slate-200 dark:hover:border-slate-700 transition"
                 >
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="w-6 h-6 rounded-full bg-purple-100 text-purple-700 font-bold text-xs flex items-center justify-center">
+                      <span className="w-6 h-6 rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-bold text-xs flex items-center justify-center">
                         {phase.phaseNumber}
                       </span>
-                      <span className="text-[10px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded-md border border-slate-200">
+                      <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700">
                         {phase.weeks} ({phase.sessions} sesi)
                       </span>
                     </div>
 
-                    <h4 className="font-bold text-xs text-slate-900">{phase.title}</h4>
+                    <h4 className="font-bold text-xs text-slate-900 dark:text-white">{phase.title}</h4>
 
-                    <div className="text-[11px] text-purple-700 font-semibold">
+                    <div className="text-[11px] text-purple-700 dark:text-purple-400 font-semibold">
                       Rentang: {phase.targetRange}
                     </div>
 
-                    <p className="text-[11px] text-slate-500 leading-relaxed">{phase.focus}</p>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">{phase.focus}</p>
                   </div>
 
-                  <div className="bg-purple-50 border border-purple-100 rounded-xl p-2.5 flex items-start gap-1.5 text-[10px] text-purple-900 mt-2">
-                    <ChevronRight className="w-3.5 h-3.5 text-purple-600 shrink-0 mt-0.5" />
+                  <div className="bg-purple-50 dark:bg-purple-950/60 border border-purple-100 dark:border-purple-800 rounded-xl p-2.5 flex items-start gap-1.5 text-[10px] text-purple-900 dark:text-purple-200 mt-2">
+                    <ChevronRight className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
                     <span>
                       <strong>Tips:</strong> {phase.tips}
                     </span>
@@ -481,47 +481,47 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
         <div className="lg:col-span-5 xl:col-span-4 space-y-6">
           {/* KPI Summary Cards */}
           <div className="grid grid-cols-3 gap-2.5">
-            <div className="bg-white rounded-[24px] p-3.5 border border-slate-100 shadow-mockup flex flex-col justify-between h-28">
+            <div className="bg-white dark:bg-[#131B2E] rounded-[24px] p-3.5 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark flex flex-col justify-between h-28">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold text-blue-600">Total Sesi</span>
-                <Zap className="w-3.5 h-3.5 text-blue-600" />
+                <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400">Total Sesi</span>
+                <Zap className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
               </div>
               <div>
-                <div className="text-xl font-black text-slate-900 tracking-tight font-sans">
+                <div className="text-xl font-black text-slate-900 dark:text-white tracking-tight font-sans">
                   ~{result.totalSessionsNeeded}
                 </div>
-                <span className="text-[10px] text-slate-400">kali sesi</span>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500">kali sesi</span>
               </div>
             </div>
 
-            <div className="bg-white rounded-[24px] p-3.5 border border-slate-100 shadow-mockup flex flex-col justify-between h-28">
+            <div className="bg-white dark:bg-[#131B2E] rounded-[24px] p-3.5 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark flex flex-col justify-between h-28">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold text-emerald-600">Waktu</span>
-                <Calendar className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">Waktu</span>
+                <Calendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               </div>
               <div>
-                <div className="text-xl font-black text-slate-900 tracking-tight font-sans">
+                <div className="text-xl font-black text-slate-900 dark:text-white tracking-tight font-sans">
                   ~{result.estimatedWeeks}
                 </div>
-                <span className="text-[10px] text-slate-400">minggu</span>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500">minggu</span>
               </div>
             </div>
 
-            <div className="bg-white rounded-[24px] p-3.5 border border-slate-100 shadow-mockup flex flex-col justify-between h-28">
+            <div className="bg-white dark:bg-[#131B2E] rounded-[24px] p-3.5 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark flex flex-col justify-between h-28">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold text-purple-600">Kesiapan</span>
-                <Award className="w-3.5 h-3.5 text-purple-600" />
+                <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400">Kesiapan</span>
+                <Award className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
               </div>
               <div>
-                <div className="text-xl font-black text-slate-900 tracking-tight font-sans">
+                <div className="text-xl font-black text-slate-900 dark:text-white tracking-tight font-sans">
                   {result.readinessPercentage}%
                 </div>
-                <span className="text-[10px] text-slate-400">dari target</span>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500">dari target</span>
               </div>
             </div>
           </div>
 
-          {/* AI Feasibility Assessment Card (Gradient Banner matching mockup) */}
+          {/* AI Feasibility Assessment Card */}
           <div className="relative overflow-hidden bg-gradient-to-r from-[#1E3A8A] via-[#312E81] to-[#6B21A8] rounded-[32px] p-6 text-white shadow-mockup-lg">
             <div className="flex items-center justify-between mb-2.5">
               <div className="flex items-center gap-2 text-white text-sm font-bold">
@@ -552,10 +552,10 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
 
           {/* Pace Training Zones Matrix */}
           {selectedPreset.category === 'running' && result.paceZones && (
-            <div className="bg-white rounded-[32px] p-6 border border-slate-100 shadow-mockup space-y-3">
+            <div className="bg-white dark:bg-[#131B2E] rounded-[32px] p-6 border border-slate-100 dark:border-slate-800 shadow-mockup dark:shadow-mockup-dark space-y-3 transition-colors">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-emerald-600" /> Zona Latihan Pace (80/20)
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> Zona Latihan Pace (80/20)
                 </h3>
               </div>
 
@@ -563,19 +563,19 @@ export const GoalAnalytics: React.FC<GoalAnalyticsProps> = ({ profile, logs }) =
                 {result.paceZones.map((zone) => (
                   <div
                     key={zone.name}
-                    className="border border-slate-100 bg-slate-50/70 rounded-2xl p-3.5 space-y-1.5"
+                    className="border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 rounded-2xl p-3.5 space-y-1.5"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-slate-900">{zone.name}</span>
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white font-bold text-purple-700 border border-slate-200">
+                        <span className="text-xs font-bold text-slate-900 dark:text-white">{zone.name}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white dark:bg-slate-800 font-bold text-purple-700 dark:text-purple-300 border border-slate-200 dark:border-slate-700">
                           {zone.code}
                         </span>
                       </div>
-                      <span className="text-xs font-bold font-mono text-purple-700">{zone.paceStr}</span>
+                      <span className="text-xs font-bold font-mono text-purple-700 dark:text-purple-300">{zone.paceStr}</span>
                     </div>
-                    <p className="text-[11px] text-slate-500 leading-snug">{zone.description}</p>
-                    <div className="text-[10px] text-slate-400 flex items-center justify-between pt-0.5">
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">{zone.description}</p>
+                    <div className="text-[10px] text-slate-400 dark:text-slate-500 flex items-center justify-between pt-0.5">
                       <span>Alokasi: {zone.percentageUsage}</span>
                       <span>Kecepatan: ~{zone.speedKmh} km/h</span>
                     </div>

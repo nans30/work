@@ -5,9 +5,10 @@ import type { MuscleGroup } from './components/dashboard/MuscleWorkload';
 import { fetchRecentLogs, insertDailyLog } from './lib/supabase';
 import type { DailyLog } from './lib/supabase';
 import { generateProCoachInsight } from './services/gemini';
-import { Smartphone } from 'lucide-react';
+import { Moon, Smartphone, Sun } from 'lucide-react';
 
 const PROFILE_STORAGE_KEY = 'aurafit_user_profile';
+const THEME_STORAGE_KEY = 'aurafit_theme';
 
 export default function App() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -16,6 +17,34 @@ export default function App() {
   const [latestAdvice, setLatestAdvice] = useState<string>('');
   const [showPwaTip, setShowPwaTip] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
+
+  // Theme state: 'light' | 'dark'
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    try {
+      const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        return savedTheme;
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    } catch {
+      return 'light';
+    }
+  });
+
+  useEffect(() => {
+    // Terapkan class 'dark' pada document root
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   useEffect(() => {
     // 1. Cek Profil Onboarding
@@ -59,7 +88,6 @@ export default function App() {
     setProfile(newProfile);
     localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(newProfile));
 
-    // Request initial welcome advice from Pro Coach AI
     const sampleCurrentLog: DailyLog = {
       weight: newProfile.initialWeight,
       sleep_hours: 8.0,
@@ -90,7 +118,6 @@ export default function App() {
     setLoadingAdvice(true);
 
     try {
-      // 1. Dapatkan Pro Coach insight dari Gemini
       const advice = await generateProCoachInsight({
         profile,
         currentLog: logData as DailyLog,
@@ -99,13 +126,11 @@ export default function App() {
       });
       setLatestAdvice(advice);
 
-      // 2. Simpan ke database Supabase (atau fallback)
       const saved = await insertDailyLog({
         ...logData,
         ai_recommendation: advice,
       });
 
-      // 3. Update state log
       setLogs((prev) => [saved, ...prev]);
     } catch (err) {
       console.error('Gagal menyimpan log:', err);
@@ -146,29 +171,28 @@ export default function App() {
 
   if (!isInitialized) {
     return (
-      <div className="min-h-screen bg-[#0b0f19] flex items-center justify-center text-white font-sans">
+      <div className="min-h-screen bg-[#F8F9FC] dark:bg-[#0B0F19] flex items-center justify-center text-slate-900 dark:text-white font-sans">
         <div className="w-8 h-8 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-slate-100 font-sans selection:bg-purple-500/30">
-      {/* Expansive Responsive Container (Mobile: max-w-md, Desktop: max-w-7xl) */}
+    <div className="min-h-screen bg-[#F8F9FC] dark:bg-[#0B0F19] text-slate-900 dark:text-slate-100 font-sans transition-colors duration-300">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-6">
         {/* iOS PWA Add to Home Screen Banner */}
         {showPwaTip && (
-          <div className="mb-4 bg-slate-900/90 border border-purple-500/30 rounded-2xl p-3 flex items-start gap-3 text-xs text-slate-300 backdrop-blur-md max-w-xl mx-auto">
-            <Smartphone className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+          <div className="mb-4 bg-white dark:bg-[#131B2E] border border-slate-200 dark:border-slate-800 rounded-2xl p-3 flex items-start gap-3 text-xs text-slate-700 dark:text-slate-300 shadow-mockup max-w-xl mx-auto">
+            <Smartphone className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
             <div className="flex-1">
-              <p className="font-semibold text-white mb-0.5">Pasang di iPhone</p>
-              <p className="text-slate-400 text-[11px]">
+              <p className="font-bold text-slate-900 dark:text-white mb-0.5">Pasang di iPhone</p>
+              <p className="text-slate-500 dark:text-slate-400 text-[11px]">
                 Tekan <strong>Share</strong> di Safari lalu pilih <strong>"Add to Home Screen"</strong> untuk pengalaman aplikasi native.
               </p>
             </div>
             <button
               onClick={() => setShowPwaTip(false)}
-              className="text-slate-500 hover:text-slate-300 text-xs px-1 cursor-pointer"
+              className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs px-1 cursor-pointer"
             >
               ✕
             </button>
@@ -177,7 +201,19 @@ export default function App() {
 
         {/* Kondisi: Tampilkan Onboarding atau Dashboard */}
         {!profile ? (
-          <Onboarding onComplete={handleCompleteOnboarding} />
+          <div className="relative">
+            {/* Top theme toggle during onboarding */}
+            <div className="absolute top-2 right-2 z-20">
+              <button
+                onClick={toggleTheme}
+                className="w-10 h-10 rounded-full bg-white dark:bg-[#131B2E] border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-center text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer"
+                title="Ganti Tema (Light/Dark)"
+              >
+                {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-purple-600" />}
+              </button>
+            </div>
+            <Onboarding onComplete={handleCompleteOnboarding} />
+          </div>
         ) : (
           <Dashboard
             profile={profile}
@@ -187,6 +223,8 @@ export default function App() {
             onAddLog={handleAddLog}
             onRefreshAdvice={handleRefreshAdvice}
             onResetOnboarding={handleResetOnboarding}
+            theme={theme}
+            onToggleTheme={toggleTheme}
           />
         )}
       </div>
