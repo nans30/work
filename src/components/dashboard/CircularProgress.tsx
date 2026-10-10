@@ -3,20 +3,17 @@ import { ChevronRight, Sparkles } from 'lucide-react';
 
 interface CircularProgressProps {
   percentage: number; // 0 to 100
-  currentValue: number;
-  targetValue: number;
-  unit: string;
-  label: string;
+  currentValue?: number;
+  targetValue?: number;
+  unit?: string;
+  label?: string;
   scoreLabel?: string;
   onOpenAiCoach?: () => void;
 }
 
 export const CircularProgress: React.FC<CircularProgressProps> = ({
   percentage,
-  currentValue,
-  targetValue,
-  unit,
-  label,
+  label = 'Progres Target My Goals',
   scoreLabel = 'Excellent!',
   onOpenAiCoach,
 }) => {
@@ -44,16 +41,16 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           </div>
           <div>
             <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-tight">
-              {label || 'Target Progres Kita'}
+              {label || 'Progres Target My Goals'}
             </h3>
             <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
-              Aktivitas & pembakaran kalori ({validPercentage}% tercapai)
+              Pencapaian target latihan harian
             </span>
           </div>
         </div>
 
-        <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-100 dark:border-emerald-800 font-mono">
-          {currentValue.toLocaleString()} / {targetValue.toLocaleString()} {unit}
+        <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-100 dark:border-emerald-800">
+          {validPercentage}% Tercapai
         </span>
       </div>
 
@@ -118,7 +115,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
               Optimize your fitness with AI Coach
             </span>
             <span className="text-[10px] text-slate-400 dark:text-slate-500">
-              {currentValue.toLocaleString()} / {targetValue.toLocaleString()} {unit} • Berdasarkan tidur & pemulihan
+              Analisis performa cerdas • Berdasarkan tidur, pemulihan & konsistensi
             </span>
           </div>
         </div>

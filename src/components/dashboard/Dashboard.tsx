@@ -202,7 +202,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               currentValue={burnedCalories}
               targetValue={profile.dailyCalorieTarget}
               unit="kkal"
-              label="Target Progres Kita"
+              label="Progres Target My Goals"
               scoreLabel="Excellent!"
             />
 
