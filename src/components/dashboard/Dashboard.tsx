@@ -6,9 +6,10 @@ import { SummaryCards } from './SummaryCards';
 import { ActivityChart } from './ActivityChart';
 import { MuscleWorkload, type MuscleGroup } from './MuscleWorkload';
 import { AICoachCard } from './AICoachCard';
+import { GoalAnalytics } from '../analytics/GoalAnalytics';
 import { LogForm } from '../LogForm';
 import { HistoryDashboard } from '../HistoryDashboard';
-import { Flame, PlusCircle, Settings, X } from 'lucide-react';
+import { Flame, PlusCircle, Settings, Target, X } from 'lucide-react';
 
 interface DashboardProps {
   profile: UserProfile;
@@ -31,7 +32,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 }) => {
   const [selectedMuscles, setSelectedMuscles] = useState<MuscleGroup[]>(['Shoulders', 'Arms']);
   const [showLogModal, setShowLogModal] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'history'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'goals' | 'history'>('overview');
 
   const toggleMuscle = (muscle: MuscleGroup) => {
     setSelectedMuscles((prev) =>
@@ -91,8 +92,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </header>
 
-      {/* Navigation Tabs (Overview vs History) */}
-      <div className="flex bg-slate-900/80 p-1 rounded-2xl border border-slate-800/80 text-xs">
+      {/* Navigation Tabs (Overview, Goal Analytics, History) */}
+      <div className="flex bg-slate-900/80 p-1 rounded-2xl border border-slate-800/80 text-xs gap-1">
         <button
           onClick={() => setActiveTab('overview')}
           className={`flex-1 py-2 rounded-xl font-semibold transition ${
@@ -101,7 +102,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
               : 'text-slate-400 hover:text-white'
           }`}
         >
-          Dashboard & AI Coach
+          Dashboard
+        </button>
+        <button
+          onClick={() => setActiveTab('goals')}
+          className={`flex-1 py-2 rounded-xl font-semibold transition flex items-center justify-center gap-1.5 ${
+            activeTab === 'goals'
+              ? 'bg-purple-600 text-white shadow-md'
+              : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          <Target className="w-3.5 h-3.5 text-purple-300" />
+          <span>Analitik Target</span>
         </button>
         <button
           onClick={() => setActiveTab('history')}
@@ -111,11 +123,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
               : 'text-slate-400 hover:text-white'
           }`}
         >
-          Riwayat Log ({logs.length})
+          Riwayat ({logs.length})
         </button>
       </div>
 
-      {activeTab === 'overview' ? (
+      {activeTab === 'overview' && (
         <>
           {/* Circular Progress: Daily Calorie Goal */}
           <CircularProgress
@@ -150,8 +162,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
           {/* Weekly Activity Line Chart (Recharts) */}
           <ActivityChart />
         </>
-      ) : (
-        /* History Tab */
+      )}
+
+      {activeTab === 'goals' && (
+        <GoalAnalytics profile={profile} logs={logs} />
+      )}
+
+      {activeTab === 'history' && (
         <div className="space-y-4">
           <HistoryDashboard logs={logs} latestAdvice={advice} isGeneratingAdvice={isGeneratingAdvice} />
         </div>

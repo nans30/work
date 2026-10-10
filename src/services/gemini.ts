@@ -13,6 +13,18 @@ export interface ProCoachInput {
   previousLogs?: DailyLog[];
 }
 
+export interface GoalFeasibilityInput {
+  profile: UserProfile;
+  goalTitle: string;
+  baseline: number;
+  target: number;
+  unit: string;
+  frequencyPerWeek: number;
+  estimatedSessions: number;
+  estimatedWeeks: number;
+  averageSleep?: number;
+}
+
 /**
  * Menghasilkan analisis mendalam dan saran pemulihan sebagai 'Pro Coach' ditenagai Gemini API
  */
@@ -74,6 +86,65 @@ Tulis respons bergaya coach profesional, empati, langsung ke poin, dan memotivas
 
   // Fallback Rule-Based Smart Coach
   return getOfflineProCoachAdvice(profile, currentLog, selectedMuscles);
+}
+
+/**
+ * Menghasilkan analisis kelayakan target kebugaran (Goal Feasibility) & tips roadmap
+ */
+export async function generateGoalFeasibilityAdvice(input: GoalFeasibilityInput): Promise<string> {
+  const {
+    profile,
+    goalTitle,
+    baseline,
+    target,
+    unit,
+    frequencyPerWeek,
+    estimatedSessions,
+    estimatedWeeks,
+    averageSleep = 7.5,
+  } = input;
+
+  if (hasGeminiKey) {
+    try {
+      const ai = new GoogleGenAI({ apiKey });
+
+      const prompt = `
+Peran: Anda adalah 'Pro Fitness Analytics & Head Coach'.
+Klien: ${profile.name} (Tingkat: ${profile.fitnessLevel}, Gender: ${profile.gender}, Berat: ${profile.initialWeight} kg).
+Rata-rata tidur saat ini: ${averageSleep} jam/malam.
+
+Rencana Target Kebugaran:
+- Target: ${goalTitle} (Dari ${baseline} ${unit} menuju ${target} ${unit})
+- Rencana Latihan: ${frequencyPerWeek} kali per minggu
+- Estimasi Model Kalkulator: Membutuhkan ~${estimatedSessions} sesi latihan dalam kurun waktu ~${estimatedWeeks} minggu.
+
+Instruksi Output:
+Berikan analisis coaching singkat dan sangat jelas (3-4 kalimat dalam Bahasa Indonesia):
+1. Apakah target ini realistis dan aman dengan frekuensi ${frequencyPerWeek}x/minggu?
+2. Berikan 1 strategi kunci untuk menghindari cedera/kelelahan berlebih (misal: pacing pernafasan saat lari, atau teknik rest-pause untuk pushup/situp).
+3. Evaluasi apakah durasi tidur ${averageSleep} jam mencukupi untuk mendukung target ini dan tips tidur pemulihannya.
+`;
+
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: prompt,
+      });
+
+      if (response.text) {
+        return response.text.trim();
+      }
+    } catch (err) {
+      console.warn('Gemini API goal feasibility failed, fallback to local logic:', err);
+    }
+  }
+
+  // Fallback Heuristik
+  const sleepStatus =
+    averageSleep >= 7.5
+      ? `Rata-rata tidur Anda (${averageSleep} jam) sudah sangat baik untuk mendukung adaptasi sistem saraf dan otot.`
+      : `Perhatikan waktu tidur Anda (${averageSleep} jam); tingkatkan minimal ke 7.5 jam agar pemulihan glikogen dan otot optimal.`;
+
+  return `Target ${goalTitle} (${target} ${unit}) dari posisi awal ${baseline} ${unit} sangat terukur dan realistis dalam ~${estimatedWeeks} minggu dengan ${frequencyPerWeek} sesi/minggu. Terapkan prinsip progressive overload tanpa memaksakan lonjakan volume mendadak di minggu awal. ${sleepStatus}`;
 }
 
 function getOfflineProCoachAdvice(
